@@ -1,6 +1,6 @@
 class Game
   def initialize
-    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    @board = Array(0..8)
     @com = "X"
     @hum = "O"
   end
@@ -21,7 +21,10 @@ class Game
     spot = nil
     until spot
       spot = gets.chomp.to_i
-      if @board[spot] != "X" && @board[spot] != "O"
+      if !@board.include?(spot)
+        puts "Invalid input, please select 0-9."
+        spot = nil
+      elsif @board[spot] != @com && @board[spot] != @hum
         @board[spot] = @hum
       else
         spot = nil
@@ -80,7 +83,6 @@ class Game
   end
 
   def game_is_over(b)
-
     [b[0], b[1], b[2]].uniq.length == 1 ||
     [b[3], b[4], b[5]].uniq.length == 1 ||
     [b[6], b[7], b[8]].uniq.length == 1 ||
@@ -91,8 +93,8 @@ class Game
     [b[2], b[4], b[6]].uniq.length == 1
   end
 
-  def tie(b)
-    b.all? { |s| s == "X" || s == "O" }
+  def tie(board)
+    board.all? { |spots| spots == "X" || spots == "O" }
   end
 
   def to_s
