@@ -11,9 +11,7 @@ class Game
     puts "Please select your spot."
     until game_is_over(@board) || tie(@board)
       get_human_spot
-      if !game_is_over(@board) && !tie(@board)
-        eval_board
-      end
+      eval_board
       puts self
     end
     puts "Game over"
