@@ -1,47 +1,61 @@
 class Game
   def initialize
-    @board = Array(0..8)
+    @board = (0..8).to_a
     @com = "X"
     @hum = "O"
+    @current_spot = nil
+    @winner = nil
   end
 
   def start_game
-    puts "Welcome to my Tic Tac Toe game"
-    puts self
+    system("clear")
+    puts "Welcome to Tic Tac Toe!"
     puts "Please select your spot."
+    puts "\n"
+    puts self
     until game_is_over(@board) || tie(@board)
       get_human_spot
+      system("clear")
+      puts "You moved to position #{@current_spot}."
       get_comp_spot
+      puts "Computer moved to position #{@current_spot}."
+      puts "\n"
       puts self
     end
-    puts "Game over"
+    puts "Game over. #{@winner} has won."
   end
 
+  private
+
   def get_human_spot
-    spot = nil
-    until spot
-      spot = gets.chomp.to_i
-      if !@board.include?(spot)
-        puts "Invalid input, please select 0-9."
-        spot = nil
-      elsif @board[spot] != @com && @board[spot] != @hum
-        @board[spot] = @hum
+    end_of_turn = false
+    until end_of_turn
+      spot = gets.chomp
+      if ("a".."z").to_a.include?(spot) || !@board.include?(spot.to_i)
+        system("clear")
+        puts "Invalid input; please select an unoccupied spot."
+        puts "\n"
+        puts self
       else
-        spot = nil
+        @board[spot.to_i] = @hum
+        @current_spot = spot
+        end_of_turn = true
       end
     end
   end
 
   def get_comp_spot
-    spot = nil
-    until spot
+    end_of_turn = false
+    until end_of_turn
       if @board[4] == "4"
-        spot = 4
-        @board[spot] = @com
+        @board[4] = @com
+        end_of_turn = true
       else
         spot = get_best_move(@board, @com)
         if @board[spot] != @com && @board[spot] != @hum
           @board[spot] = @com
+          @current_spot = spot
+          end_of_turn = true
         else
           spot = nil
         end
@@ -49,38 +63,40 @@ class Game
     end
   end
 
-  def get_best_move(board, next_player, depth = 0, best_score = {})
+  def get_best_move(board, next_player, depth = 0)
     available_spots = []
     best_move = nil
 
     board.each do |spot|
-      if spot != @com && spot != @hum
+      unless spot == @com || spot == @hum
         available_spots << spot
       end
     end
 
     available_spots.each do |spot|
-      board[spot.to_i] = @com
+      spot = spot.to_i
+      board[spot] = @com
       if game_is_over(board)
-        best_move = spot.to_i
-        board[spot.to_i] = spot
+        best_move = spot
+        board[spot] = spot
+        @winner = "Computer"
         return best_move
       else
-        board[spot.to_i] = @hum
+        board[spot] = @hum
         if game_is_over(board)
-          best_move = spot.to_i
-          board[spot.to_i] = spot
+          best_move = spot
+          board[spot] = spot
           return best_move
         else
-          board[spot.to_i] = spot
+          board[spot] = spot
         end
       end
     end
+
     if best_move
       return best_move
     else
-      n = rand(0..available_spots.count)
-      return available_spots[n].to_i
+      return available_spots.sample.to_i
     end
   end
 
