@@ -10,15 +10,19 @@ class Game
   def start_game
     system("clear")
     puts "Welcome to Tic Tac Toe!"
+    puts "First player to get three in a row wins."
+    puts "Choose to play as either 'X' or 'O'."
+    choose_marker
+    system("clear")
     puts "Please select your spot."
     puts "\n"
     puts self
     until game_is_over(@board) || tie(@board)
       get_human_spot
       system("clear")
-      puts "You moved to position #{@current_spot}."
+      puts "You (#{@hum}) moved to position #{@current_spot}."
       get_comp_spot
-      puts "Computer moved to position #{@current_spot}."
+      puts "#{@com} moved to position #{@current_spot}."
       puts "\n"
       puts self
     end
@@ -26,6 +30,19 @@ class Game
   end
 
   private
+
+  def choose_marker
+    @hum = gets.chomp.upcase!
+    until @hum == "X" || @hum == "O"
+      puts "Please select to play as either 'X' or 'O'."
+      @hum = gets.chomp.upcase!
+    end
+    if @hum == 'X'
+      @com = 'O'
+    else
+      @com = 'X'
+    end
+  end
 
   def get_human_spot
     end_of_turn = false
