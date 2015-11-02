@@ -4,6 +4,7 @@ class Game
     @com = "X"
     @hum = "O"
     @current_spot = nil
+    @winner = nil
   end
 
   def start_game
@@ -21,8 +22,10 @@ class Game
       puts "\n"
       puts self
     end
-    puts "Game over"
+    puts "Game over. #{@winner} has won."
   end
+
+  private
 
   def get_human_spot
     end_of_turn = false
@@ -60,30 +63,32 @@ class Game
     end
   end
 
-  def get_best_move(board, next_player, depth = 0, best_score = {})
+  def get_best_move(board, next_player, depth = 0)
     available_spots = []
     best_move = nil
 
     board.each do |spot|
-      if spot != @com && spot != @hum
+      unless spot == @com || spot == @hum
         available_spots << spot
       end
     end
 
     available_spots.each do |spot|
-      board[spot.to_i] = @com
+      spot = spot.to_i
+      board[spot] = @com
       if game_is_over(board)
-        best_move = spot.to_i
-        board[spot.to_i] = spot
+        best_move = spot
+        board[spot] = spot
+        @winner = "Computer"
         return best_move
       else
-        board[spot.to_i] = @hum
+        board[spot] = @hum
         if game_is_over(board)
-          best_move = spot.to_i
-          board[spot.to_i] = spot
+          best_move = spot
+          board[spot] = spot
           return best_move
         else
-          board[spot.to_i] = spot
+          board[spot] = spot
         end
       end
     end
@@ -96,19 +101,14 @@ class Game
   end
 
   def game_is_over(board)
-    init = 0
-    until init > 6
-      return true if [board[init], board[init + 1], board[init + 2]].uniq.length == 1
-      init += 3
-    end
-    # [board[0], board[1], board[2]].uniq.length == 1 ||
-    # [board[3], board[4], board[5]].uniq.length == 1 ||
-    # [board[6], board[7], board[8]].uniq.length == 1 ||
-    # [board[0], board[3], board[6]].uniq.length == 1 ||
-    # [board[1], board[4], board[7]].uniq.length == 1 ||
-    # [board[2], board[5], board[8]].uniq.length == 1 ||
-    # [board[0], board[4], board[8]].uniq.length == 1 ||
-    # [board[2], board[4], board[6]].uniq.length == 1
+    [board[0], board[1], board[2]].uniq.length == 1 ||
+    [board[3], board[4], board[5]].uniq.length == 1 ||
+    [board[6], board[7], board[8]].uniq.length == 1 ||
+    [board[0], board[3], board[6]].uniq.length == 1 ||
+    [board[1], board[4], board[7]].uniq.length == 1 ||
+    [board[2], board[5], board[8]].uniq.length == 1 ||
+    [board[0], board[4], board[8]].uniq.length == 1 ||
+    [board[2], board[4], board[6]].uniq.length == 1
   end
 
   def tie(board)
