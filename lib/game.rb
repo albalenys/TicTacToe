@@ -11,7 +11,7 @@ class Game
     puts "Please select your spot."
     until game_is_over(@board) || tie(@board)
       get_human_spot
-      eval_board
+      get_comp_spot
       puts self
     end
     puts "Game over"
@@ -32,7 +32,7 @@ class Game
     end
   end
 
-  def eval_board
+  def get_comp_spot
     spot = nil
     until spot
       if @board[4] == "4"
@@ -40,7 +40,7 @@ class Game
         @board[spot] = @com
       else
         spot = get_best_move(@board, @com)
-        if @board[spot] != "X" && @board[spot] != "O"
+        if @board[spot] != @com && @board[spot] != @hum
           @board[spot] = @com
         else
           spot = nil
@@ -50,51 +50,53 @@ class Game
   end
 
   def get_best_move(board, next_player, depth = 0, best_score = {})
-    available_spaces = []
+    available_spots = []
     best_move = nil
-    board.each do |s|
-      if s != "X" && s != "O"
-        available_spaces << s
+
+    board.each do |spot|
+      if spot != @com && spot != @hum
+        available_spots << spot
       end
     end
-    available_spaces.each do |as|
-      board[as.to_i] = @com
+
+    available_spots.each do |spot|
+      board[spot.to_i] = @com
       if game_is_over(board)
-        best_move = as.to_i
-        board[as.to_i] = as
+        best_move = spot.to_i
+        board[spot.to_i] = spot
         return best_move
       else
-        board[as.to_i] = @hum
+        board[spot.to_i] = @hum
         if game_is_over(board)
-          best_move = as.to_i
-          board[as.to_i] = as
+          best_move = spot.to_i
+          board[spot.to_i] = spot
           return best_move
         else
-          board[as.to_i] = as
+          board[spot.to_i] = spot
         end
       end
     end
     if best_move
       return best_move
     else
-      n = rand(0..available_spaces.count)
-      return available_spaces[n].to_i
+      n = rand(0..available_spots.count)
+      return available_spots[n].to_i
     end
   end
 
-  def game_is_over(b)
-    [b[0], b[1], b[2]].uniq.length == 1 ||
-    [b[3], b[4], b[5]].uniq.length == 1 ||
-    [b[6], b[7], b[8]].uniq.length == 1 ||
-    [b[0], b[3], b[6]].uniq.length == 1 ||
-    [b[1], b[4], b[7]].uniq.length == 1 ||
-    [b[2], b[5], b[8]].uniq.length == 1 ||
-    [b[0], b[4], b[8]].uniq.length == 1 ||
-    [b[2], b[4], b[6]].uniq.length == 1
+  def game_is_over(board)
+    [board[0], board[1], board[2]].uniq.length == 1 ||
+    [board[3], board[4], board[5]].uniq.length == 1 ||
+    [board[6], board[7], board[8]].uniq.length == 1 ||
+    [board[0], board[3], board[6]].uniq.length == 1 ||
+    [board[1], board[4], board[7]].uniq.length == 1 ||
+    [board[2], board[5], board[8]].uniq.length == 1 ||
+    [board[0], board[4], board[8]].uniq.length == 1 ||
+    [board[2], board[4], board[6]].uniq.length == 1
   end
 
   def tie(board)
-    board.all? { |spots| spots == "X" || spots == "O" }
+    board.all? { |spots| spots == @com || spots == @hum }
   end
 
   def to_s
