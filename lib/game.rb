@@ -1,6 +1,6 @@
 class Game
   def initialize
-    @board = Array(0..8)
+    @board = (0..8).to_a
     @com = "X"
     @hum = "O"
   end
@@ -18,16 +18,14 @@ class Game
   end
 
   def get_human_spot
-    spot = nil
-    until spot
-      spot = gets.chomp.to_i
-      if !@board.include?(spot)
-        puts "Invalid input, please select 0-9."
-        spot = nil
-      elsif @board[spot] != @com && @board[spot] != @hum
-        @board[spot] = @hum
+    end_of_turn = false
+    until end_of_turn
+      spot = gets.chomp
+      if ("a".."z").to_a.include?(spot) || !@board.include?(spot.to_i)
+        puts "Invalid input; please select an unoccupied spot."
       else
-        spot = nil
+        @board[spot.to_i] = @hum
+        end_of_turn = true
       end
     end
   end
@@ -76,11 +74,11 @@ class Game
         end
       end
     end
+
     if best_move
       return best_move
     else
-      n = rand(0..available_spots.count)
-      return available_spots[n].to_i
+      return available_spots.sample.to_i
     end
   end
 
