@@ -1,35 +1,65 @@
 class Game
   def initialize
-    @board = (0..8).to_a
+    @board = (1..9).to_a
     @com = "X"
     @hum = "O"
     @current_spot = nil
     @winner = nil
+    @game_type = nil
   end
 
   def start_game
     system("clear")
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
-    puts "Choose to play as either 'X' or 'O'."
-    choose_marker
-    system("clear")
-    puts "Please select your spot."
+    puts "Choose from the following gaming options."
     puts "\n"
-    puts self
-    until game_is_over(@board) || tie(@board)
-      get_human_spot
+    puts "1. Player vs. Computer"
+    puts "2. Player vs. Player (not yet implemented)"
+    puts "3. Computer vs. Computer (not yet implemented)"
+    choose_game_type
+
+    system("clear")
+    if @game_type == "1"
+      puts "You chose Player vs. Computer. Good luck! (You will need it.)"
+      puts "Choose to play as either 'X' or 'O'."
+      choose_marker
       system("clear")
-      puts "You (#{@hum}) moved to position #{@current_spot}."
-      get_comp_spot
-      puts "#{@com} moved to position #{@current_spot}."
+      puts "Please select your spot."
       puts "\n"
       puts self
+      until game_is_over(@board) || tie(@board)
+        get_human_spot
+        system("clear")
+        puts "You moved to position #{@current_spot}."
+        get_comp_spot
+        puts "'#{@com}' moved to position #{@current_spot}."
+        puts "\n"
+        puts self
+      end
+
+    elsif @game_type == "2"
+      puts "You chose Player vs. Player."
+    else
+      puts "You chose Computer vs. Computer. Enjoy the show!"
     end
-    puts "Game over. #{@winner} has won."
+
+    if tie(@board)
+      puts "Game over. You tied with '#{@com}'."
+    else
+      puts "Game over. #{@winner} has won."
+    end
   end
 
   private
+
+  def choose_game_type
+    @game_type = gets.chomp
+    until @game_type == "1"
+      puts "Invalid input; please choose options 1 through 3."
+      @game_type = gets.chomp
+    end
+  end
 
   def choose_marker
     @hum = gets.chomp.upcase!
@@ -54,7 +84,7 @@ class Game
         puts "\n"
         puts self
       else
-        @board[spot.to_i] = @hum
+        @board[spot.to_i - 1] = @hum
         @current_spot = spot
         end_of_turn = true
       end
@@ -64,17 +94,15 @@ class Game
   def get_comp_spot
     end_of_turn = false
     until end_of_turn
-      if @board[4] == "4"
+      if @board[4] == "5"
         @board[4] = @com
         end_of_turn = true
       else
-        spot = get_best_move(@board, @com)
-        if @board[spot] != @com && @board[spot] != @hum
-          @board[spot] = @com
-          @current_spot = spot
+        spot_index = get_best_move(@board, @com)
+        if @board[spot_index] != @com && @board[spot_index] != @hum
+          @board[spot_index] = @com
+          @current_spot = spot_index + 1
           end_of_turn = true
-        else
-          spot = nil
         end
       end
     end
@@ -91,21 +119,21 @@ class Game
     end
 
     available_spots.each do |spot|
-      spot = spot.to_i
-      board[spot] = @com
+      spot_index = (spot - 1).to_i
+      board[spot_index] = @com
       if game_is_over(board)
-        best_move = spot
-        board[spot] = spot
+        best_move = spot_index
+        board[spot_index] = spot
         @winner = "Computer"
         return best_move
       else
         board[spot] = @hum
         if game_is_over(board)
-          best_move = spot
-          board[spot] = spot
+          best_move = spot_index
+          board[spot_index] = spot
           return best_move
         else
-          board[spot] = spot
+          board[spot_index] = spot
         end
       end
     end
@@ -133,7 +161,7 @@ class Game
   end
 
   def to_s
-    "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|\n"
+    " _________________\n|     |     |     |\n|  #{@board[0]}  |  #{@board[1]}  |  #{@board[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[3]}  |  #{@board[4]}  |  #{@board[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[6]}  |  #{@board[7]}  |  #{@board[8]}  |\n|_____|_____|_____|"
   end
 
 end
