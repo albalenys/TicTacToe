@@ -13,6 +13,7 @@ class Game
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
     puts "Choose from the following gaming options."
+    puts "\n"
     puts "1. Player vs. Computer"
     puts "2. Player vs. Player (not yet implemented)"
     puts "3. Computer vs. Computer (not yet implemented)"
@@ -21,30 +22,33 @@ class Game
     system("clear")
     if @game_type == "1"
       puts "You chose Player vs. Computer. Good luck! (You will need it.)"
-    elsif @game_type == "2"
-      puts "You chose Player vs. Player."
-    elsif @game_type == "3"
-      puts "You chose Computer vs. Computer. Enjoy the show!"
-    end
-    puts "Choose to play as either 'X' or 'O'."
-    choose_marker
-
-    system("clear")
-    puts "Please select your spot."
-    puts "\n"
-    puts self
-
-    until game_is_over(@board) || tie(@board)
-      get_human_spot
+      puts "Choose to play as either 'X' or 'O'."
+      choose_marker
       system("clear")
-      puts "You (#{@hum}) moved to position #{@current_spot}."
-      get_comp_spot
-      puts "#{@com} moved to position #{@current_spot}."
+      puts "Please select your spot."
       puts "\n"
       puts self
+      until game_is_over(@board) || tie(@board)
+        get_human_spot
+        system("clear")
+        puts "You ('#{@hum}') moved to position #{@current_spot}."
+        get_comp_spot
+        puts "'#{@com}' moved to position #{@current_spot}."
+        puts "\n"
+        puts self
+      end
+
+    elsif @game_type == "2"
+      puts "You chose Player vs. Player."
+    else
+      puts "You chose Computer vs. Computer. Enjoy the show!"
     end
 
-    puts "Game over. #{@winner} has won."
+    if tie(@board)
+      puts "Game over. You tied with '#{@com}'."
+    else
+      puts "Game over. #{@winner} has won."
+    end
   end
 
   private
@@ -159,7 +163,7 @@ class Game
   end
 
   def to_s
-    "|_#{@board[0]}_|_#{@board[1]}_|_#{@board[2]}_|\n|_#{@board[3]}_|_#{@board[4]}_|_#{@board[5]}_|\n|_#{@board[6]}_|_#{@board[7]}_|_#{@board[8]}_|\n"
+    " ___________\n| #{@board[0]} | #{@board[1]} | #{@board[2]} |\n|___|___|___|\n| #{@board[3]} | #{@board[4]} | #{@board[5]} |\n|___|___|___|\n| #{@board[6]} | #{@board[7]} | #{@board[8]} |\n|___|___|___|"
   end
 
 end
