@@ -1,6 +1,6 @@
 class Game
   def initialize
-    @board = (0..8).to_a
+    @board = (1..9).to_a
     @com = "X"
     @hum = "O"
     @current_spot = nil
@@ -31,7 +31,7 @@ class Game
       until game_is_over(@board) || tie(@board)
         get_human_spot
         system("clear")
-        puts "You ('#{@hum}') moved to position #{@current_spot}."
+        puts "You moved to position #{@current_spot}."
         get_comp_spot
         puts "'#{@com}' moved to position #{@current_spot}."
         puts "\n"
@@ -84,7 +84,7 @@ class Game
         puts "\n"
         puts self
       else
-        @board[spot.to_i] = @hum
+        @board[spot.to_i - 1] = @hum
         @current_spot = spot
         end_of_turn = true
       end
@@ -94,17 +94,15 @@ class Game
   def get_comp_spot
     end_of_turn = false
     until end_of_turn
-      if @board[4] == "4"
+      if @board[4] == "5"
         @board[4] = @com
         end_of_turn = true
       else
-        spot = get_best_move(@board, @com)
-        if @board[spot] != @com && @board[spot] != @hum
-          @board[spot] = @com
-          @current_spot = spot
+        spot_index = get_best_move(@board, @com)
+        if @board[spot_index] != @com && @board[spot_index] != @hum
+          @board[spot_index] = @com
+          @current_spot = spot_index + 1
           end_of_turn = true
-        else
-          spot = nil
         end
       end
     end
@@ -121,21 +119,21 @@ class Game
     end
 
     available_spots.each do |spot|
-      spot = spot.to_i
-      board[spot] = @com
+      spot_index = (spot - 1).to_i
+      board[spot_index] = @com
       if game_is_over(board)
-        best_move = spot
-        board[spot] = spot
+        best_move = spot_index
+        board[spot_index] = spot
         @winner = "Computer"
         return best_move
       else
         board[spot] = @hum
         if game_is_over(board)
-          best_move = spot
-          board[spot] = spot
+          best_move = spot_index
+          board[spot_index] = spot
           return best_move
         else
-          board[spot] = spot
+          board[spot_index] = spot
         end
       end
     end
