@@ -5,18 +5,35 @@ class Game
     @hum = "O"
     @current_spot = nil
     @winner = nil
+    @game_type = nil
   end
 
   def start_game
     system("clear")
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
+    puts "Choose from the following gaming options."
+    puts "1. Player vs. Computer"
+    puts "2. Player vs. Player (not yet implemented)"
+    puts "3. Computer vs. Computer (not yet implemented)"
+    choose_game_type
+
+    system("clear")
+    if @game_type == "1"
+      puts "You chose Player vs. Computer. Good luck! (You will need it.)"
+    elsif @game_type == "2"
+      puts "You chose Player vs. Player."
+    elsif @game_type == "3"
+      puts "You chose Computer vs. Computer. Enjoy the show!"
+    end
     puts "Choose to play as either 'X' or 'O'."
     choose_marker
+
     system("clear")
     puts "Please select your spot."
     puts "\n"
     puts self
+
     until game_is_over(@board) || tie(@board)
       get_human_spot
       system("clear")
@@ -26,10 +43,19 @@ class Game
       puts "\n"
       puts self
     end
+
     puts "Game over. #{@winner} has won."
   end
 
   private
+
+  def choose_game_type
+    @game_type = gets.chomp
+    until @game_type == "1"
+      puts "Invalid input; please choose options 1 through 3."
+      @game_type = gets.chomp
+    end
+  end
 
   def choose_marker
     @hum = gets.chomp.upcase!
