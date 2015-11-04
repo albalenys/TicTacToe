@@ -29,8 +29,9 @@ class Game
       puts "Please select your spot."
       puts "\n"
       puts self
+      @current_player = @player_1
       until game_is_over(@board) || tie(@board)
-        get_human_spot
+        get_human_spot(@current_player)
         system("clear")
         puts "You moved to position #{@current_spot}."
         get_comp_spot
