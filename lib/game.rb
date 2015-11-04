@@ -17,7 +17,7 @@ class Game
     puts "\n"
     puts "1. Player vs. Computer"
     puts "2. Player vs. Player"
-    puts "3. Computer vs. Computer (not yet implemented)"
+    puts "3. Computer vs. Computer"
     choose_game_type
 
     system("clear")
@@ -26,19 +26,21 @@ class Game
       puts "Choose to play as either 'X' or 'O'."
       choose_marker
       system("clear")
-      puts "Please select your spot."
-      puts "\n"
-      puts self
       @current_player = @player_1
+
       until game_is_over(@board) || tie(@board)
-        get_human_spot(@current_player)
-        system("clear")
-        puts "You moved to position #{@current_spot}."
-        get_comp_spot
-        puts "'#{@player_2}' moved to position #{@current_spot}."
+        puts "-----------"
+        puts "Player: '#{@player_1}'"
+        puts "Computer: '#{@player_2}'"
+        puts "-----------"
+        puts "\n"
+        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
         puts "\n"
         puts self
-        puts "\n"
+        puts "Please select your spot."
+        get_human_spot(@current_player)
+        get_comp_spot
+        system("clear")
       end
 
     elsif @game_type == "2"
