@@ -17,7 +17,7 @@ class Game
     puts "\n"
     puts "1. Player vs. Computer"
     puts "2. Player vs. Player"
-    puts "3. Computer vs. Computer (not yet implemented)"
+    puts "3. Computer vs. Computer"
     choose_game_type
 
     system("clear")
@@ -26,19 +26,21 @@ class Game
       puts "Choose to play as either 'X' or 'O'."
       choose_marker
       system("clear")
-      puts "Please select your spot."
-      puts "\n"
-      puts self
       @current_player = @player_1
+
       until game_is_over(@board) || tie(@board)
-        get_human_spot(@current_player)
-        system("clear")
-        puts "You moved to position #{@current_spot}."
-        get_comp_spot
-        puts "'#{@player_2}' moved to position #{@current_spot}."
+        puts "-----------"
+        puts "Player: '#{@player_1}'"
+        puts "Computer: '#{@player_2}'"
+        puts "-----------"
+        puts "\n"
+        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
         puts "\n"
         puts self
-        puts "\n"
+        puts "Please select your spot."
+        get_human_spot(@current_player)
+        get_comp_spot
+        system("clear")
       end
 
     elsif @game_type == "2"
@@ -65,7 +67,34 @@ class Game
       end
 
     else
-      puts "You chose Computer vs. Computer. Enjoy the show!"
+      puts "You chose Computer vs. Computer."
+      puts "Please choose either 'X' or 'O' for Player 1."
+      choose_marker
+      system("clear")
+      @current_player = @player_1
+
+      until game_is_over(@board) || tie(@board)
+        puts "-----------"
+        puts "Player 1: '#{@player_1}'"
+        puts "Player 2: '#{@player_2}'"
+        puts "-----------"
+        puts "\n"
+        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
+        puts "\n"
+        puts self
+        puts "\n"
+        switch_player
+        print "Player '#{@current_player}' is moving"
+        sleep(2)
+        print "."
+        sleep(2)
+        print "."
+        sleep(2)
+        print "."
+        sleep(2)
+        get_comp_spot
+        system("clear")
+      end
     end
 
     if tie(@board)
@@ -88,8 +117,8 @@ class Game
   def choose_game_type
     @game_type = gets.chomp
 
-    until @game_type == "1" || @game_type == "2"
-      puts "Invalid input; please choose options 1 or 2."
+    until @game_type == "1" || @game_type == "2" || @game_type == "3"
+      puts "Invalid input; please choose options 1, 2, or 3."
       @game_type = gets.chomp
     end
   end
