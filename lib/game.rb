@@ -34,11 +34,10 @@ class Game
     get_marker
     system("clear")
 
-    @game_type == "2" ? @current_player = @player_2 : @current_player = @player_1
+    @game_type == "1" ? @current_player = @player_1: @current_player = @player_2
 
     until game_is_over(@board) || tie(@board)
       puts "-----------"
-
       if @game_type == "1"
         puts "Player: '#{@player_1}'"
         puts "Computer: '#{@player_2}'"
@@ -46,7 +45,6 @@ class Game
         puts "Player 1: '#{@player_1}'"
         puts "Player 2: '#{@player_2}'"
       end
-
       puts "-----------"
       puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
       puts self
@@ -62,13 +60,13 @@ class Game
       else
         switch_player
         print "\nPlayer '#{@current_player}' is moving"
-        sleep(2)
+        sleep(1)
         print "."
         sleep(2)
         print "."
         sleep(2)
         print "."
-        sleep(2)
+        sleep(1)
         get_comp_spot
       end
       system("clear")
@@ -80,9 +78,9 @@ class Game
     puts "-----------"
 
     if tie(@board)
-      puts "\nGame over. '#{@player_1}' and '#{@player_2}' have tied."
+      puts "\nGame over. Player '#{@player_1}' and player '#{@player_2}' have tied."
     else
-      puts "\nGame over. #{@winner} has won!"
+      puts "\nGame over. Player #{@winner} has won!"
     end
 
     puts self
@@ -95,6 +93,14 @@ class Game
       @current_player = @player_2
     else
       @current_player = @player_1
+    end
+  end
+
+  def next_player
+    if @current_player == @player_1
+      @player_2
+    else
+      @player_1
     end
   end
 
@@ -120,13 +126,11 @@ class Game
 
   def get_human_spot(player)
     end_of_turn = false
-
     until end_of_turn
       spot = gets.chomp
       if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
         system("clear")
-        puts "Invalid input; please select an unoccupied spot."
-        puts "\n"
+        puts "Invalid input; please select an unoccupied spot.\n"
         puts self
       else
         @board[spot.to_i - 1] = player
@@ -138,42 +142,30 @@ class Game
   end
 
   def get_comp_spot
-    end_of_turn = false
-    until end_of_turn
-      if @board[4] == "5"
-        @board[4] = @player_2
-        end_of_turn = true
-      else
-        spot_index = get_best_move(@board, @player_2)
-        if @board[spot_index] != @player_2 && @board[spot_index] != @player_1
-          @board[spot_index] = @player_2
-          @current_spot = spot_index + 1
-          end_of_turn = true
-        end
-      end
+    if @board[4] == "5"
+      @board[4] = @current_player
+    else
+      spot_index = get_best_move(@board)
+      @board[spot_index] = @current_player
+      @current_spot = spot_index + 1
     end
   end
 
-  def get_best_move(board, next_player, depth = 0)
-    available_spots = []
+  def get_best_move(board)
+    available_spots = board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
     best_move = nil
 
-    board.each do |spot|
-      unless spot == @player_2 || spot == @player_1
-        available_spots << spot
-      end
-    end
-
     available_spots.each do |spot|
-      spot_index = (spot - 1).to_i
-      board[spot_index] = @player_2
+      spot_index = (spot.to_i - 1)
+      board[spot_index] = @current_player
+
       if game_is_over(board)
         best_move = spot_index
         board[spot_index] = spot
         @winner = @current_player
         return best_move
       else
-        board[spot] = @player_1
+        board[spot_index] = next_player
         if game_is_over(board)
           best_move = spot_index
           board[spot_index] = spot
@@ -187,7 +179,7 @@ class Game
     if best_move
       return best_move
     else
-      return available_spots.sample.to_i
+      return available_spots.sample.to_i - 1
     end
   end
 
