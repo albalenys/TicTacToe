@@ -51,12 +51,13 @@ class Game
 
       if @game_type == "1"
         puts "\nPlease select your spot."
-        get_human_spot(@current_player)
+        get_human_spot
+        switch_player
         get_comp_spot
       elsif @game_type == "2"
         switch_player
         puts "\nIt is now Player '#{@current_player}'s turn."
-        get_human_spot(@current_player)
+        get_human_spot
       else
         switch_player
         print "\nPlayer '#{@current_player}' is moving"
@@ -124,7 +125,7 @@ class Game
     @player_1 == 'X' ? @player_2 = 'O' : @player_2 = 'X'
   end
 
-  def get_human_spot(player)
+  def get_human_spot
     end_of_turn = false
     until end_of_turn
       spot = gets.chomp
@@ -133,7 +134,7 @@ class Game
         puts "Invalid input; please select an unoccupied spot.\n"
         puts self
       else
-        @board[spot.to_i - 1] = player
+        @board[spot.to_i - 1] = @current_player
         @current_spot = spot
         end_of_turn = true
       end
