@@ -1,6 +1,6 @@
 class Game
   def initialize
-    @board = (1..9).to_a
+    @board = Array(1..9)
     @player_1 = nil
     @player_2 = nil
     @current_spot = nil
@@ -14,10 +14,9 @@ class Game
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
     puts "Choose from the following gaming options."
-    puts "\n"
-    puts "1. Player vs. Computer"
-    puts "2. Player vs. Player"
-    puts "3. Computer vs. Computer"
+    puts "\n[ 1 ] Player vs. Computer"
+    puts "[ 2 ] Player vs. Player"
+    puts "[ 3 ] Computer vs. Computer"
     choose_game_type
 
     system("clear")
@@ -33,11 +32,9 @@ class Game
         puts "Player: '#{@player_1}'"
         puts "Computer: '#{@player_2}'"
         puts "-----------"
-        puts "\n"
-        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
-        puts "\n"
+        puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
         puts self
-        puts "Please select your spot."
+        puts "\nPlease select your spot."
         get_human_spot(@current_player)
         get_comp_spot
         system("clear")
@@ -48,20 +45,17 @@ class Game
       puts "Player 1, choose to play as either 'X' or 'O'."
       choose_marker
       system("clear")
-      @current_player = @player_1
+      @current_player = @player_2
 
       until game_is_over(@board) || tie(@board)
         puts "-----------"
         puts "Player 1: '#{@player_1}'"
         puts "Player 2: '#{@player_2}'"
         puts "-----------"
-        puts "\n"
-        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
-        switch_player
-        puts "It is now Player '#{@current_player}'s turn."
-        puts "\n"
+        puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
         puts self
-        puts "\n"
+        switch_player
+        puts "\nIt is now Player '#{@current_player}'s turn."
         get_human_spot(@current_player)
         system("clear")
       end
@@ -78,13 +72,10 @@ class Game
         puts "Player 1: '#{@player_1}'"
         puts "Player 2: '#{@player_2}'"
         puts "-----------"
-        puts "\n"
-        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
-        puts "\n"
+        puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
         puts self
-        puts "\n"
         switch_player
-        print "Player '#{@current_player}' is moving"
+        print "\nPlayer '#{@current_player}' is moving"
         sleep(2)
         print "."
         sleep(2)
@@ -97,11 +88,16 @@ class Game
       end
     end
 
+    puts "-----------"
+    puts "Player 1: '#{@player_1}'"
+    puts "Player 2: '#{@player_2}'"
+    puts "-----------"
     if tie(@board)
-      puts "Game over. You tied with '#{@player_2}'."
+      puts "\nGame over. '#{@player_1}' and '#{@player_2}' have tied."
     else
-      puts "Game over. #{@winner} has won."
+      puts "\nGame over. #{@winner} has won!"
     end
+    puts self
   end
 
   private
@@ -125,22 +121,21 @@ class Game
 
   def choose_marker
     @player_1 = gets.chomp.upcase!
+
     until @player_1 == "X" || @player_1 == "O"
-      puts "Please select to play as either 'X' or 'O'."
+      puts "Invalid input; select to play as either 'X' or 'O'."
       @player_1 = gets.chomp.upcase!
     end
-    if @player_1 == 'X'
-      @player_2 = 'O'
-    else
-      @player_2 = 'X'
-    end
+
+    @player_1 == 'X' ? @player_2 = 'O' : @player_2 = 'X'
   end
 
   def get_human_spot(player)
     end_of_turn = false
+
     until end_of_turn
       spot = gets.chomp
-      if ("a".."z").to_a.include?(spot) || !@board.include?(spot.to_i)
+      if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
         system("clear")
         puts "Invalid input; please select an unoccupied spot."
         puts "\n"
@@ -151,6 +146,7 @@ class Game
         end_of_turn = true
       end
     end
+
   end
 
   def get_comp_spot
@@ -186,7 +182,7 @@ class Game
       if game_is_over(board)
         best_move = spot_index
         board[spot_index] = spot
-        @winner = "Computer"
+        @winner = @current_player
         return best_move
       else
         board[spot] = @player_1
