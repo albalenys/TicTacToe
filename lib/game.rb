@@ -11,6 +11,10 @@ class Game
 
   def start_game
     system("clear")
+    puts "_____ ___  __  _____     __  _____  __  ____"
+    puts "  |    |  |      |  /\\  |      |   |  | |--"
+    puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___"
+    puts "\n"
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
     puts "Choose from the following gaming options."
@@ -31,6 +35,7 @@ class Game
       puts "Please choose either 'X' or 'O' for Player 1."
     end
 
+    puts "\n"
     get_marker
     system("clear")
     @game_type == "1" ? @current_player = @player_1: @current_player = @player_2
