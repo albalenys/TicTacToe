@@ -143,7 +143,7 @@ class Game
   end
 
   def get_comp_spot
-    if @board[4] == "5"
+    if @board[4] == 5
       @board[4] = @current_player
     else
       spot_index = get_best_move(@board)
@@ -157,7 +157,7 @@ class Game
     best_move = nil
 
     available_spots.each do |spot|
-      spot_index = (spot.to_i - 1)
+      spot_index = (spot - 1)
       board[spot_index] = @current_player
 
       if game_is_over(board)
