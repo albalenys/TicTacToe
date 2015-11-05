@@ -17,63 +17,49 @@ class Game
     puts "\n[ 1 ] Player vs. Computer"
     puts "[ 2 ] Player vs. Player"
     puts "[ 3 ] Computer vs. Computer"
-    choose_game_type
-
+    get_game_type
     system("clear")
+
     if @game_type == "1"
       puts "You chose Player vs. Computer."
       puts "Choose to play as either 'X' or 'O'."
-      choose_marker
-      system("clear")
-      @current_player = @player_1
-
-      until game_is_over(@board) || tie(@board)
-        puts "-----------"
-        puts "Player: '#{@player_1}'"
-        puts "Computer: '#{@player_2}'"
-        puts "-----------"
-        puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
-        puts self
-        puts "\nPlease select your spot."
-        get_human_spot(@current_player)
-        get_comp_spot
-        system("clear")
-      end
-
     elsif @game_type == "2"
       puts "You chose Player vs. Player."
       puts "Player 1, choose to play as either 'X' or 'O'."
-      choose_marker
-      system("clear")
-      @current_player = @player_2
-
-      until game_is_over(@board) || tie(@board)
-        puts "-----------"
-        puts "Player 1: '#{@player_1}'"
-        puts "Player 2: '#{@player_2}'"
-        puts "-----------"
-        puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
-        puts self
-        switch_player
-        puts "\nIt is now Player '#{@current_player}'s turn."
-        get_human_spot(@current_player)
-        system("clear")
-      end
-
     else
       puts "You chose Computer vs. Computer."
       puts "Please choose either 'X' or 'O' for Player 1."
-      choose_marker
-      system("clear")
-      @current_player = @player_1
+    end
 
-      until game_is_over(@board) || tie(@board)
-        puts "-----------"
+    get_marker
+    system("clear")
+
+    @game_type == "2" ? @current_player = @player_2 : @current_player = @player_1
+
+    until game_is_over(@board) || tie(@board)
+      puts "-----------"
+
+      if @game_type == "1"
+        puts "Player: '#{@player_1}'"
+        puts "Computer: '#{@player_2}'"
+      else
         puts "Player 1: '#{@player_1}'"
         puts "Player 2: '#{@player_2}'"
-        puts "-----------"
-        puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
-        puts self
+      end
+
+      puts "-----------"
+      puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
+      puts self
+
+      if @game_type == "1"
+        puts "\nPlease select your spot."
+        get_human_spot(@current_player)
+        get_comp_spot
+      elsif @game_type == "2"
+        switch_player
+        puts "\nIt is now Player '#{@current_player}'s turn."
+        get_human_spot(@current_player)
+      else
         switch_player
         print "\nPlayer '#{@current_player}' is moving"
         sleep(2)
@@ -84,19 +70,21 @@ class Game
         print "."
         sleep(2)
         get_comp_spot
-        system("clear")
       end
+      system("clear")
     end
 
     puts "-----------"
     puts "Player 1: '#{@player_1}'"
     puts "Player 2: '#{@player_2}'"
     puts "-----------"
+
     if tie(@board)
       puts "\nGame over. '#{@player_1}' and '#{@player_2}' have tied."
     else
       puts "\nGame over. #{@winner} has won!"
     end
+
     puts self
   end
 
@@ -110,7 +98,7 @@ class Game
     end
   end
 
-  def choose_game_type
+  def get_game_type
     @game_type = gets.chomp
 
     until @game_type == "1" || @game_type == "2" || @game_type == "3"
@@ -119,7 +107,7 @@ class Game
     end
   end
 
-  def choose_marker
+  def get_marker
     @player_1 = gets.chomp.upcase!
 
     until @player_1 == "X" || @player_1 == "O"
