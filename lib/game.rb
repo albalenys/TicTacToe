@@ -3,7 +3,7 @@ class Game
     @board = Array(1..9)
     @player_1 = nil
     @player_2 = nil
-    @current_spot = nil
+    @last_move = nil
     @current_player = nil
     @winner = nil
     @game_type = nil
@@ -33,10 +33,9 @@ class Game
 
     get_marker
     system("clear")
-
     @game_type == "1" ? @current_player = @player_1: @current_player = @player_2
 
-    until game_is_over(@board) || tie(@board)
+    until game_is_over? || game_is_tied?
       puts "-----------"
       if @game_type == "1"
         puts "Player: '#{@player_1}'"
@@ -46,7 +45,7 @@ class Game
         puts "Player 2: '#{@player_2}'"
       end
       puts "-----------"
-      puts "\nPlayer '#{@current_player}' moved to position #{@current_spot}.\n" if @current_spot
+      puts "\nPlayer '#{@current_player}' moved to position #{@last_move}.\n" if @last_move
       puts self
 
       if @game_type == "1"
@@ -78,13 +77,13 @@ class Game
     puts "Player 2: '#{@player_2}'"
     puts "-----------"
 
-    if tie(@board)
+    if game_is_tied?
       puts "\nGame over. Player '#{@player_1}' and player '#{@player_2}' have tied."
     else
-      puts "\nGame over. Player #{@winner} has won!"
+      puts "\nGame over. Player '#{@winner}' has won!"
     end
-
     puts self
+    puts "\n"
   end
 
   private
@@ -130,73 +129,71 @@ class Game
     until end_of_turn
       spot = gets.chomp
       if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
-        system("clear")
         puts "Invalid input; please select an unoccupied spot.\n"
-        puts self
       else
         @board[spot.to_i - 1] = @current_player
-        @current_spot = spot
+        @last_move = spot
+        @winner = @current_player if game_is_over?
         end_of_turn = true
       end
     end
-
   end
 
   def get_comp_spot
     if @board[4] == 5
       @board[4] = @current_player
+      @last_move = 5
     else
-      spot_index = get_best_move(@board)
-      @board[spot_index] = @current_player
-      @current_spot = spot_index + 1
+      get_best_move
     end
   end
 
-  def get_best_move(board)
-    available_spots = board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
+  def get_best_move
+    available_spots = @board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
     best_move = nil
 
     available_spots.each do |spot|
-      spot_index = (spot - 1)
-      board[spot_index] = @current_player
+      spot_index = spot - 1
+      @board[spot_index] = @current_player
 
-      if game_is_over(board)
-        best_move = spot_index
-        board[spot_index] = spot
+      if game_is_over?
         @winner = @current_player
+        best_move = spot
         return best_move
       else
-        board[spot_index] = next_player
-        if game_is_over(board)
-          best_move = spot_index
-          board[spot_index] = spot
+        @board[spot_index] = next_player
+        if game_is_over?
+          @board[spot_index] = @current_player
+          best_move = spot
           return best_move
         else
-          board[spot_index] = spot
+          @board[spot_index] = spot
         end
       end
     end
 
     if best_move
-      return best_move
+      @last_move = best_move
     else
-      return available_spots.sample.to_i - 1
+      spot = available_spots.sample
+      @board[spot - 1] = @current_player
+      @last_move = spot
     end
   end
 
-  def game_is_over(board)
-    [board[0], board[1], board[2]].uniq.length == 1 ||
-    [board[3], board[4], board[5]].uniq.length == 1 ||
-    [board[6], board[7], board[8]].uniq.length == 1 ||
-    [board[0], board[3], board[6]].uniq.length == 1 ||
-    [board[1], board[4], board[7]].uniq.length == 1 ||
-    [board[2], board[5], board[8]].uniq.length == 1 ||
-    [board[0], board[4], board[8]].uniq.length == 1 ||
-    [board[2], board[4], board[6]].uniq.length == 1
+  def game_is_over?
+    [@board[0], @board[1], @board[2]].uniq.length == 1 ||
+    [@board[3], @board[4], @board[5]].uniq.length == 1 ||
+    [@board[6], @board[7], @board[8]].uniq.length == 1 ||
+    [@board[0], @board[3], @board[6]].uniq.length == 1 ||
+    [@board[1], @board[4], @board[7]].uniq.length == 1 ||
+    [@board[2], @board[5], @board[8]].uniq.length == 1 ||
+    [@board[0], @board[4], @board[8]].uniq.length == 1 ||
+    [@board[2], @board[4], @board[6]].uniq.length == 1
   end
 
-  def tie(board)
-    board.all? { |spots| spots == @player_2 || spots == @player_1 }
+  def game_is_tied?
+    @board.all? { |spots| spots == @player_2 || spots == @player_1 }
   end
 
   def to_s
