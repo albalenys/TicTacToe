@@ -119,7 +119,7 @@ class Game
   def get_game_type
     @game_type = gets.chomp
 
-    until @game_type == "1" || @game_type == "2" || @game_type == "3"
+    until (@game_type == "1" || @game_type == "2" || @game_type == "3")
       puts "Invalid input; please choose options 1, 2, or 3."
       @game_type = gets.chomp
     end
@@ -128,7 +128,7 @@ class Game
   def get_marker
     @player_1 = gets.chomp.upcase!
 
-    until @player_1 == "X" || @player_1 == "O"
+    until (@player_1 == "X" || @player_1 == "O")
       puts "Invalid input; select to play as either 'X' or 'O'."
       @player_1 = gets.chomp.upcase!
     end
@@ -156,7 +156,7 @@ class Game
       @board[4] = @current_player
       @last_move = 5
     else
-      get_best_move
+      @last_move = get_best_move
     end
   end
 
@@ -167,7 +167,6 @@ class Game
     available_spots.each do |spot|
       spot_index = spot - 1
       @board[spot_index] = @current_player
-
       if game_is_over?
         @winner = @current_player
         best_move = spot
@@ -184,13 +183,13 @@ class Game
       end
     end
 
-    if best_move
-      @last_move = best_move
-    else
+    unless best_move
       spot = available_spots.sample
+      best_move = spot
       @board[spot.to_i - 1] = @current_player
-      @last_move = spot
     end
+
+    best_move
   end
 
   def game_is_over?
