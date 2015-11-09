@@ -15,9 +15,11 @@ class Game
     puts "  |    |  |      |  /\\  |      |   |  | |--"
     puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___"
     puts "\n"
+    puts "-----------"
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
     puts "Choose from the following gaming options."
+    puts "-----------"
     puts "\n[ 1 ] Player vs. Computer"
     puts "[ 2 ] Player vs. Player"
     puts "[ 3 ] Computer vs. Computer"
@@ -25,6 +27,7 @@ class Game
     get_game_type
     system("clear")
 
+    puts "-----------"
     if @game_type == "1"
       puts "You chose Player vs. Computer."
       puts "Choose to play as either 'X' or 'O'."
@@ -35,10 +38,15 @@ class Game
       puts "You chose Computer vs. Computer."
       puts "Please choose either 'X' or 'O' for Player 1."
     end
-
+    puts "-----------"
+    puts "\n"
     get_marker
     system("clear")
+
+    puts "-----------"
+    puts "Player 1 will be #{@player_1}."
     puts "Please choose who goes first. Enter 'X' or 'O'."
+    puts "-----------"
     puts "\n"
     get_first_player_turn
     system("clear")
@@ -61,15 +69,16 @@ class Game
         puts "\nPlease select your spot."
         puts "\n"
         get_human_spot
-        print "\nYou moved to position #{@last_move}"
-        sleep(1)
-        print "."
-        sleep(2)
-        print "."
-        sleep(2)
-        print "."
-        sleep(1)
+        puts "\nYou moved to position #{@last_move}."
         switch_player
+        print "Player '#{@current_player}' is looking for next move"
+        sleep(1)
+        print "."
+        sleep(2)
+        print "."
+        sleep(2)
+        print "."
+        sleep(1)
         get_comp_spot
       elsif @game_type == "2"
         switch_player
