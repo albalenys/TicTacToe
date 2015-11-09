@@ -1,9 +1,9 @@
 class Game
   def initialize
-    @board = (1..9).to_a
+    @board = Array(1..9)
     @player_1 = nil
     @player_2 = nil
-    @current_spot = nil
+    @last_move = nil
     @current_player = nil
     @winner = nil
     @game_type = nil
@@ -11,97 +11,95 @@ class Game
 
   def start_game
     system("clear")
+    puts "_____ ___  __  _____     __  _____  __  ____"
+    puts "  |    |  |      |  /\\  |      |   |  | |--"
+    puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___"
+    puts "\n"
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
     puts "Choose from the following gaming options."
+    puts "\n[ 1 ] Player vs. Computer"
+    puts "[ 2 ] Player vs. Player"
+    puts "[ 3 ] Computer vs. Computer"
     puts "\n"
-    puts "1. Player vs. Computer"
-    puts "2. Player vs. Player"
-    puts "3. Computer vs. Computer"
-    choose_game_type
-
+    get_game_type
     system("clear")
+
     if @game_type == "1"
       puts "You chose Player vs. Computer."
       puts "Choose to play as either 'X' or 'O'."
-      choose_marker
-      system("clear")
-      @current_player = @player_1
-
-      until game_is_over(@board) || tie(@board)
-        puts "-----------"
-        puts "Player: '#{@player_1}'"
-        puts "Computer: '#{@player_2}'"
-        puts "-----------"
-        puts "\n"
-        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
-        puts "\n"
-        puts self
-        puts "Please select your spot."
-        get_human_spot(@current_player)
-        get_comp_spot
-        system("clear")
-      end
-
     elsif @game_type == "2"
       puts "You chose Player vs. Player."
       puts "Player 1, choose to play as either 'X' or 'O'."
-      choose_marker
-      system("clear")
-      @current_player = @player_1
-
-      until game_is_over(@board) || tie(@board)
-        puts "-----------"
-        puts "Player 1: '#{@player_1}'"
-        puts "Player 2: '#{@player_2}'"
-        puts "-----------"
-        puts "\n"
-        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
-        switch_player
-        puts "It is now Player '#{@current_player}'s turn."
-        puts "\n"
-        puts self
-        puts "\n"
-        get_human_spot(@current_player)
-        system("clear")
-      end
-
     else
       puts "You chose Computer vs. Computer."
       puts "Please choose either 'X' or 'O' for Player 1."
-      choose_marker
-      system("clear")
-      @current_player = @player_1
+    end
 
-      until game_is_over(@board) || tie(@board)
-        puts "-----------"
+    puts "\n"
+    get_marker
+    system("clear")
+    @current_player = @player_2
+
+    until (game_is_over? || game_is_tied?)
+      puts "-----------"
+      if @game_type == "1"
+        puts "Player: '#{@player_1}'"
+        puts "Computer: '#{@player_2}'"
+      else
         puts "Player 1: '#{@player_1}'"
         puts "Player 2: '#{@player_2}'"
-        puts "-----------"
-        puts "\n"
-        puts "Player '#{@current_player}' moved to position #{@current_spot}." if @current_spot
-        puts "\n"
-        puts self
-        puts "\n"
-        switch_player
-        print "Player '#{@current_player}' is moving"
-        sleep(2)
-        print "."
-        sleep(2)
-        print "."
-        sleep(2)
-        print "."
-        sleep(2)
-        get_comp_spot
-        system("clear")
       end
+      puts "-----------"
+      puts "\nPlayer '#{@current_player}' moved to position #{@last_move}.\n" if @last_move
+      puts self
+
+      if @game_type == "1"
+        switch_player
+        puts "\nPlease select your spot."
+        puts "\n"
+        get_human_spot
+        print "\nYou moved to position #{@last_move}"
+        sleep(1)
+        print "."
+        sleep(2)
+        print "."
+        sleep(2)
+        print "."
+        sleep(1)
+        switch_player
+        get_comp_spot
+      elsif @game_type == "2"
+        switch_player
+        puts "\nIt is now Player '#{@current_player}'s turn."
+        get_human_spot
+      else
+        switch_player
+        print "\nPlayer '#{@current_player}' is moving"
+        sleep(1)
+        print "."
+        sleep(2)
+        print "."
+        sleep(2)
+        print "."
+        sleep(1)
+        get_comp_spot
+      end
+      system("clear")
     end
 
-    if tie(@board)
-      puts "Game over. You tied with '#{@player_2}'."
+    puts "-----------"
+    puts "Player 1: '#{@player_1}'"
+    puts "Player 2: '#{@player_2}'"
+    puts "-----------"
+
+    if game_is_tied?
+      puts "\nGame over. Player '#{@player_1}' and player '#{@player_2}' have tied."
     else
-      puts "Game over. #{@winner} has won."
+      puts "\nGame over. Player '#{@winner}' has won!"
     end
+    puts self
+    puts "\n"
   end
 
   private
@@ -114,112 +112,99 @@ class Game
     end
   end
 
-  def choose_game_type
+  def next_player
+    @current_player == @player_1 ? @player_2 : @player_1
+  end
+
+  def get_game_type
     @game_type = gets.chomp
 
-    until @game_type == "1" || @game_type == "2" || @game_type == "3"
+    until (@game_type == "1" || @game_type == "2" || @game_type == "3")
       puts "Invalid input; please choose options 1, 2, or 3."
       @game_type = gets.chomp
     end
   end
 
-  def choose_marker
+  def get_marker
     @player_1 = gets.chomp.upcase!
-    until @player_1 == "X" || @player_1 == "O"
-      puts "Please select to play as either 'X' or 'O'."
+
+    until (@player_1 == "X" || @player_1 == "O")
+      puts "Invalid input; select to play as either 'X' or 'O'."
       @player_1 = gets.chomp.upcase!
     end
-    if @player_1 == 'X'
-      @player_2 = 'O'
-    else
-      @player_2 = 'X'
-    end
+
+    @player_1 == 'X' ? @player_2 = 'O' : @player_2 = 'X'
   end
 
-  def get_human_spot(player)
+  def get_human_spot
     end_of_turn = false
     until end_of_turn
       spot = gets.chomp
-      if ("a".."z").to_a.include?(spot) || !@board.include?(spot.to_i)
-        system("clear")
-        puts "Invalid input; please select an unoccupied spot."
-        puts "\n"
-        puts self
+      if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
+        puts "Invalid input; please select an unoccupied spot.\n"
       else
-        @board[spot.to_i - 1] = player
-        @current_spot = spot
+        @board[spot.to_i - 1] = @current_player
+        @last_move = spot
+        @winner = @current_player if game_is_over?
         end_of_turn = true
       end
     end
   end
 
   def get_comp_spot
-    end_of_turn = false
-    until end_of_turn
-      if @board[4] == "5"
-        @board[4] = @player_2
-        end_of_turn = true
-      else
-        spot_index = get_best_move(@board, @player_2)
-        if @board[spot_index] != @player_2 && @board[spot_index] != @player_1
-          @board[spot_index] = @player_2
-          @current_spot = spot_index + 1
-          end_of_turn = true
-        end
-      end
+    if @board[4] == 5
+      @board[4] = @current_player
+      @last_move = 5
+    else
+      @last_move = get_best_move
     end
   end
 
-  def get_best_move(board, next_player, depth = 0)
-    available_spots = []
+  def get_best_move
+    available_spots = @board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
     best_move = nil
 
-    board.each do |spot|
-      unless spot == @player_2 || spot == @player_1
-        available_spots << spot
-      end
-    end
-
     available_spots.each do |spot|
-      spot_index = (spot - 1).to_i
-      board[spot_index] = @player_2
-      if game_is_over(board)
-        best_move = spot_index
-        board[spot_index] = spot
-        @winner = "Computer"
+      spot_index = spot - 1
+      @board[spot_index] = @current_player
+      if game_is_over?
+        @winner = @current_player
+        best_move = spot
         return best_move
       else
-        board[spot] = @player_1
-        if game_is_over(board)
-          best_move = spot_index
-          board[spot_index] = spot
+        @board[spot_index] = next_player
+        if game_is_over?
+          @board[spot_index] = @current_player
+          best_move = spot
           return best_move
         else
-          board[spot_index] = spot
+          @board[spot_index] = spot
         end
       end
     end
 
-    if best_move
-      return best_move
-    else
-      return available_spots.sample.to_i
+    unless best_move
+      spot = available_spots.sample
+      best_move = spot
+      @board[spot.to_i - 1] = @current_player
     end
+
+    best_move
   end
 
-  def game_is_over(board)
-    [board[0], board[1], board[2]].uniq.length == 1 ||
-    [board[3], board[4], board[5]].uniq.length == 1 ||
-    [board[6], board[7], board[8]].uniq.length == 1 ||
-    [board[0], board[3], board[6]].uniq.length == 1 ||
-    [board[1], board[4], board[7]].uniq.length == 1 ||
-    [board[2], board[5], board[8]].uniq.length == 1 ||
-    [board[0], board[4], board[8]].uniq.length == 1 ||
-    [board[2], board[4], board[6]].uniq.length == 1
+  def game_is_over?
+    [@board[0], @board[1], @board[2]].uniq.length == 1 ||
+    [@board[3], @board[4], @board[5]].uniq.length == 1 ||
+    [@board[6], @board[7], @board[8]].uniq.length == 1 ||
+    [@board[0], @board[3], @board[6]].uniq.length == 1 ||
+    [@board[1], @board[4], @board[7]].uniq.length == 1 ||
+    [@board[2], @board[5], @board[8]].uniq.length == 1 ||
+    [@board[0], @board[4], @board[8]].uniq.length == 1 ||
+    [@board[2], @board[4], @board[6]].uniq.length == 1
   end
 
-  def tie(board)
-    board.all? { |spots| spots == @player_2 || spots == @player_1 }
+  def game_is_tied?
+    @board.all? { |spots| spots == @player_2 || spots == @player_1 }
   end
 
   def to_s
