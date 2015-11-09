@@ -59,7 +59,14 @@ class Game
         puts "\nPlease select your spot."
         puts "\n"
         get_human_spot
-        p game_is_tied?
+        print "\nYou moved to position #{@last_move}"
+        sleep(1)
+        print "."
+        sleep(2)
+        print "."
+        sleep(2)
+        print "."
+        sleep(1)
         switch_player
         get_comp_spot
       elsif @game_type == "2"
