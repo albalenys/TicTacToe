@@ -1,3 +1,11 @@
-Readme
+##TicTacToe
 
-Run the game in lib/game.rb
+Tic Tac Toe console game designed for <a href="https://8thlight.com/">8th Light</a>'s Apprenticeship program.
+
+
+###Instructions
+The first player to reach three in a row wins!
+
+To run the game, enter 'ruby game.rb' in the game's directory (lib/game.rb) and follow the instructions.
+Users are able to choose between player vs. player, player vs. computer, and computer vs. computer.
+
