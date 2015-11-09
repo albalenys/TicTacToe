@@ -21,6 +21,7 @@ class Game
     puts "\n[ 1 ] Player vs. Computer"
     puts "[ 2 ] Player vs. Player"
     puts "[ 3 ] Computer vs. Computer"
+    puts "\n"
     get_game_type
     system("clear")
 
@@ -38,9 +39,9 @@ class Game
     puts "\n"
     get_marker
     system("clear")
-    @game_type == "1" ? @current_player = @player_1: @current_player = @player_2
+    @current_player = @player_2
 
-    until game_is_over? || game_is_tied?
+    until (game_is_over? || game_is_tied?)
       puts "-----------"
       if @game_type == "1"
         puts "Player: '#{@player_1}'"
@@ -54,8 +55,11 @@ class Game
       puts self
 
       if @game_type == "1"
+        switch_player
         puts "\nPlease select your spot."
+        puts "\n"
         get_human_spot
+        p game_is_tied?
         switch_player
         get_comp_spot
       elsif @game_type == "2"
@@ -102,11 +106,7 @@ class Game
   end
 
   def next_player
-    if @current_player == @player_1
-      @player_2
-    else
-      @player_1
-    end
+    @current_player == @player_1 ? @player_2 : @player_1
   end
 
   def get_game_type
@@ -181,7 +181,7 @@ class Game
       @last_move = best_move
     else
       spot = available_spots.sample
-      @board[spot - 1] = @current_player
+      @board[spot.to_i - 1] = @current_player
       @last_move = spot
     end
   end
