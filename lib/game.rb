@@ -36,10 +36,12 @@ class Game
       puts "Please choose either 'X' or 'O' for Player 1."
     end
 
-    puts "\n"
     get_marker
     system("clear")
-    @current_player = @player_2
+    puts "Please choose who goes first. Enter 'X' or 'O'."
+    puts "\n"
+    get_first_player_turn
+    system("clear")
 
     until (game_is_over? || game_is_tied?)
       puts "-----------"
@@ -134,6 +136,17 @@ class Game
     end
 
     @player_1 == 'X' ? @player_2 = 'O' : @player_2 = 'X'
+  end
+
+  def get_first_player_turn
+    @current_player = gets.chomp.upcase!
+
+    until (@current_player == "X" || @current_player == "O")
+      puts "Invalid input; please select either 'X' or 'O'."
+      @current_player = gets.chomp.upcase!
+    end
+
+    switch_player
   end
 
   def get_human_spot
