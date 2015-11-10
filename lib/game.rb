@@ -25,6 +25,7 @@ class Game
     get_game_type
     system("clear")
 
+    puts "-----------"
     if @game_type == "1"
       puts "You chose Player vs. Computer."
       puts "Choose to play as either 'X' or 'O'."
@@ -35,11 +36,18 @@ class Game
       puts "You chose Computer vs. Computer."
       puts "Please choose either 'X' or 'O' for Player 1."
     end
-
+    puts "-----------"
     puts "\n"
     get_marker
     system("clear")
-    @current_player = @player_2
+
+    puts "-----------"
+    puts "Player 1 will be #{@player_1}."
+    puts "Please choose who goes first. Enter 'X' or 'O'."
+    puts "-----------"
+    puts "\n"
+    get_first_player_turn
+    system("clear")
 
     until (game_is_over? || game_is_tied?)
       puts "-----------"
@@ -53,34 +61,30 @@ class Game
       puts "-----------"
       puts "\nPlayer '#{@current_player}' moved to position #{@last_move}.\n" if @last_move
       puts self
+      switch_player
+      puts "\nIt is now Player '#{@current_player}'s turn."
 
       if @game_type == "1"
-        switch_player
-        puts "\nPlease select your spot."
-        puts "\n"
-        get_human_spot
-        print "\nYou moved to position #{@last_move}"
-        sleep(1)
-        print "."
-        sleep(2)
-        print "."
-        sleep(2)
-        print "."
-        sleep(1)
-        switch_player
-        get_comp_spot
+        if @current_player == @player_2
+          print "Player '#{@current_player}' is looking for next move"
+          sleep(1)
+          print "."
+          sleep(1)
+          print "."
+          sleep(1)
+          print "."
+          sleep(1)
+        end
+        @current_player == @player_1 ? get_human_spot : get_comp_spot
       elsif @game_type == "2"
-        switch_player
-        puts "\nIt is now Player '#{@current_player}'s turn."
         get_human_spot
       else
-        switch_player
         print "\nPlayer '#{@current_player}' is moving"
         sleep(1)
         print "."
-        sleep(2)
+        sleep(1)
         print "."
-        sleep(2)
+        sleep(1)
         print "."
         sleep(1)
         get_comp_spot
@@ -134,6 +138,17 @@ class Game
     end
 
     @player_1 == 'X' ? @player_2 = 'O' : @player_2 = 'X'
+  end
+
+  def get_first_player_turn
+    @current_player = gets.chomp.upcase!
+
+    until (@current_player == "X" || @current_player == "O")
+      puts "Invalid input; please select either 'X' or 'O'."
+      @current_player = gets.chomp.upcase!
+    end
+
+    switch_player
   end
 
   def get_human_spot
