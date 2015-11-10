@@ -15,11 +15,9 @@ class Game
     puts "  |    |  |      |  /\\  |      |   |  | |--"
     puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___"
     puts "\n"
-    puts "-----------"
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
     puts "Choose from the following gaming options."
-    puts "-----------"
     puts "\n[ 1 ] Player vs. Computer"
     puts "[ 2 ] Player vs. Player"
     puts "[ 3 ] Computer vs. Computer"
@@ -63,35 +61,30 @@ class Game
       puts "-----------"
       puts "\nPlayer '#{@current_player}' moved to position #{@last_move}.\n" if @last_move
       puts self
+      switch_player
+      puts "\nIt is now Player '#{@current_player}'s turn."
 
       if @game_type == "1"
-        switch_player
-        puts "\nPlease select your spot."
-        puts "\n"
-        get_human_spot
-        puts "\nYou moved to position #{@last_move}."
-        switch_player
-        print "Player '#{@current_player}' is looking for next move"
-        sleep(1)
-        print "."
-        sleep(2)
-        print "."
-        sleep(2)
-        print "."
-        sleep(1)
-        get_comp_spot
+        if @current_player == @player_2
+          print "Player '#{@current_player}' is looking for next move"
+          sleep(1)
+          print "."
+          sleep(1)
+          print "."
+          sleep(1)
+          print "."
+          sleep(1)
+        end
+        @current_player == @player_1 ? get_human_spot : get_comp_spot
       elsif @game_type == "2"
-        switch_player
-        puts "\nIt is now Player '#{@current_player}'s turn."
         get_human_spot
       else
-        switch_player
         print "\nPlayer '#{@current_player}' is moving"
         sleep(1)
         print "."
-        sleep(2)
+        sleep(1)
         print "."
-        sleep(2)
+        sleep(1)
         print "."
         sleep(1)
         get_comp_spot
