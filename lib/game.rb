@@ -126,24 +126,21 @@ class Game
       @current_player = gets.chomp.upcase!
     end
 
-    switch_player
+    switch_player #switching players to follow the game flow.
   end
 
   def get_human_spot
-    end_of_turn = false
+    spot = gets.chomp
 
-    until end_of_turn
+    until spot == !(Array("a".."z").include?(spot)) || @board.include?(spot.to_i)
+      puts "Invalid input; please select an unoccupied spot.\n"
       spot = gets.chomp
-      if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
-        puts "Invalid input; please select an unoccupied spot.\n"
-      else
-        @board[spot.to_i - 1] = @current_player
-        @last_move = spot
-        @winner = @current_player if game_is_over?
-        end_of_turn = true
-      end
     end
 
+    spot_index = spot.to_i - 1
+    @board[spot_index] = @current_player
+    @last_move = spot
+    @winner = @current_player if game_is_over?
   end
 
   def get_comp_spot
@@ -151,11 +148,11 @@ class Game
       @board[4] = @current_player
       @last_move = 5
     else
-      @last_move = get_best_move
+      @last_move = best_move
     end
   end
 
-  def get_best_move
+  def best_move
     available_spots = @board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
     best_move = nil
 
