@@ -1,3 +1,5 @@
+require_relative 'screen'
+
 class Game
   def initialize
     @board = Array(1..9)
@@ -17,7 +19,7 @@ class Game
     puts "\n"
     puts "Welcome to Tic Tac Toe!"
     puts "First player to get three in a row wins."
-    puts "Choose from the following gaming options."
+    puts "Choose from the following gaming options (1, 2, or 3)."
     puts "\n[ 1 ] Player vs. Computer"
     puts "[ 2 ] Player vs. Player"
     puts "[ 3 ] Computer vs. Computer"
@@ -50,15 +52,7 @@ class Game
     system("clear")
 
     until (game_is_over? || game_is_tied?)
-      puts "-----------"
-      if @game_type == "1"
-        puts "Player: '#{@player_1}'"
-        puts "Computer: '#{@player_2}'"
-      else
-        puts "Player 1: '#{@player_1}'"
-        puts "Player 2: '#{@player_2}'"
-      end
-      puts "-----------"
+      header
       puts "\nPlayer '#{@current_player}' moved to position #{@last_move}.\n" if @last_move
       puts self
       switch_player
@@ -92,11 +86,7 @@ class Game
       system("clear")
     end
 
-    puts "-----------"
-    puts "Player 1: '#{@player_1}'"
-    puts "Player 2: '#{@player_2}'"
-    puts "-----------"
-
+    header
     if game_is_tied?
       puts "\nGame over. Player '#{@player_1}' and player '#{@player_2}' have tied."
     else
@@ -228,5 +218,5 @@ class Game
 
 end
 
-# game = Game.new
-# game.start_game
+game = Game.new
+game.start_game
