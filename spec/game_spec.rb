@@ -1,5 +1,4 @@
 require_relative '../lib/game'
-require 'pry'
 
 #comment out the start of game in game.rb before running tests.
 

@@ -162,13 +162,13 @@ class Game
       if game_is_over?
         @winner = @current_player
         best_move = spot
-        return best_move
+        break
       else
         @board[spot_index] = next_player
         if game_is_over?
           @board[spot_index] = @current_player
           best_move = spot
-          return best_move
+          break
         else
           @board[spot_index] = spot
         end
@@ -202,7 +202,6 @@ class Game
   def to_s
     " _________________\n|     |     |     |\n|  #{@board[0]}  |  #{@board[1]}  |  #{@board[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[3]}  |  #{@board[4]}  |  #{@board[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[6]}  |  #{@board[7]}  |  #{@board[8]}  |\n|_____|_____|_____|"
   end
-
 end
 
 game = Game.new
