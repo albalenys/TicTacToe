@@ -1,4 +1,4 @@
-require_relative 'screen'
+require_relative 'game_helper'
 
 class Game
   def initialize
@@ -61,26 +61,14 @@ class Game
       if @game_type == "1"
         if @current_player == @player_2
           print "Player '#{@current_player}' is looking for next move"
-          sleep(1)
-          print "."
-          sleep(1)
-          print "."
-          sleep(1)
-          print "."
-          sleep(1)
+          counter
         end
         @current_player == @player_1 ? get_human_spot : get_comp_spot
       elsif @game_type == "2"
         get_human_spot
       else
         print "\nPlayer '#{@current_player}' is moving"
-        sleep(1)
-        print "."
-        sleep(1)
-        print "."
-        sleep(1)
-        print "."
-        sleep(1)
+        counter
         get_comp_spot
       end
       system("clear")
@@ -143,6 +131,7 @@ class Game
 
   def get_human_spot
     end_of_turn = false
+
     until end_of_turn
       spot = gets.chomp
       if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
@@ -154,6 +143,7 @@ class Game
         end_of_turn = true
       end
     end
+
   end
 
   def get_comp_spot
