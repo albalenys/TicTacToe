@@ -9,3 +9,13 @@ def header
   end
   puts "-----------"
 end
+
+def counter
+  sleep(1)
+  print "."
+  sleep(1)
+  print "."
+  sleep(1)
+  print "."
+  sleep(1)
+end
