@@ -126,24 +126,21 @@ class Game
       @current_player = gets.chomp.upcase!
     end
 
-    switch_player
+    switch_player #switching players to follow the game flow.
   end
 
   def get_human_spot
-    end_of_turn = false
+    spot = gets.chomp
 
-    until end_of_turn
+    until spot == !(Array("a".."z").include?(spot)) || @board.include?(spot.to_i)
+      puts "Invalid input; please select an unoccupied spot.\n"
       spot = gets.chomp
-      if Array("a".."z").include?(spot) || !@board.include?(spot.to_i)
-        puts "Invalid input; please select an unoccupied spot.\n"
-      else
-        @board[spot.to_i - 1] = @current_player
-        @last_move = spot
-        @winner = @current_player if game_is_over?
-        end_of_turn = true
-      end
     end
 
+    spot_index = spot.to_i - 1
+    @board[spot_index] = @current_player
+    @last_move = spot
+    @winner = @current_player if game_is_over?
   end
 
   def get_comp_spot
@@ -151,11 +148,11 @@ class Game
       @board[4] = @current_player
       @last_move = 5
     else
-      @last_move = get_best_move
+      @last_move = best_move
     end
   end
 
-  def get_best_move
+  def best_move
     available_spots = @board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
     best_move = nil
 
@@ -165,13 +162,13 @@ class Game
       if game_is_over?
         @winner = @current_player
         best_move = spot
-        return best_move
+        break
       else
         @board[spot_index] = next_player
         if game_is_over?
           @board[spot_index] = @current_player
           best_move = spot
-          return best_move
+          break
         else
           @board[spot_index] = spot
         end
@@ -205,7 +202,6 @@ class Game
   def to_s
     " _________________\n|     |     |     |\n|  #{@board[0]}  |  #{@board[1]}  |  #{@board[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[3]}  |  #{@board[4]}  |  #{@board[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[6]}  |  #{@board[7]}  |  #{@board[8]}  |\n|_____|_____|_____|"
   end
-
 end
 
 game = Game.new
