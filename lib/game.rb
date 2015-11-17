@@ -31,13 +31,19 @@ class Game
     puts "-----------"
     if @game_type == "1"
       puts "You chose Player vs. Computer."
+      @player_1.type = "human"
+      @player_2.type = "computer"
       puts "Choose to play as either 'X' or 'O'."
     elsif @game_type == "2"
       puts "You chose Player vs. Player."
       puts "Player 1, choose to play as either 'X' or 'O'."
+      @player_1.type = "human"
+      @player_2.type = "human"
     else
       puts "You chose Computer vs. Computer."
       puts "Please choose either 'X' or 'O' for Player 1."
+      @player_1.type = "computer"
+      @player_2.type = "computer"
     end
     puts "-----------"
     puts "\n"
@@ -65,14 +71,15 @@ class Game
           print "Player '#{@current_player.marker}' is looking for next move"
           counter
         end
-        @current_player == @player_1 ? @player_1.get_human_spot(@board, @current_player, @last_move, @winner) : get_comp_spot
+        @current_player.get_move(@board, @current_player, @last_move)
       elsif @game_type == "2"
-        @player_1.get_human_spot(@board, @current_player, @last_move)
+        @player_1.get_move(@board, @current_player, @last_move)
         @winner = current_player if game_is_over?
       else
         print "\nPlayer '#{@current_player.marker}' is moving"
         counter
-        get_comp_spot
+        @current_player.get_move(@board, @current_player, @last_move)
+        @winner = current_player if game_is_over?
       end
       system("clear")
     end
@@ -125,47 +132,6 @@ class Game
     end
 
     switch_player #switching players to follow the game flow.
-  end
-
-  def get_comp_spot
-    if @board[4] == 5
-      @board[4] = @current_player.marker
-      @last_move = 5
-    else
-      @last_move = best_move
-    end
-  end
-
-  def best_move
-    available_spots = @board.select { |spot| spot unless spot == @player_2.marker || spot == @player_1.marker }
-    best_move = nil
-
-    available_spots.each do |spot|
-      spot_index = spot - 1
-      @board[spot_index] = @current_player.marker
-      if game_is_over?
-        @winner = @current_player
-        best_move = spot
-        break
-      else
-        @board[spot_index] = next_player.marker
-        if game_is_over?
-          @board[spot_index] = @current_player.marker
-          best_move = spot
-          break
-        else
-          @board[spot_index] = spot
-        end
-      end
-    end
-
-    unless best_move
-      spot = available_spots.sample
-      best_move = spot
-      @board[spot.to_i - 1] = @current_player.marker
-    end
-
-    best_move
   end
 
   def game_is_over?
