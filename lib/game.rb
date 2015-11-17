@@ -65,9 +65,10 @@ class Game
           print "Player '#{@current_player.marker}' is looking for next move"
           counter
         end
-        @current_player == @player_1 ? get_human_spot : get_comp_spot
+        @current_player == @player_1 ? @player_1.get_human_spot(@board, @current_player, @last_move, @winner) : get_comp_spot
       elsif @game_type == "2"
-        get_human_spot
+        @player_1.get_human_spot(@board, @current_player, @last_move)
+        @winner = current_player if game_is_over?
       else
         print "\nPlayer '#{@current_player.marker}' is moving"
         counter
@@ -124,20 +125,6 @@ class Game
     end
 
     switch_player #switching players to follow the game flow.
-  end
-
-  def get_human_spot
-    spot = gets.chomp
-
-    until spot == !(Array("a".."z").include?(spot)) || @board.include?(spot.to_i)
-      puts "Invalid input; please select an unoccupied spot.\n"
-      spot = gets.chomp
-    end
-
-    spot_index = spot.to_i - 1
-    @board[spot_index] = @current_player.marker
-    @last_move = spot
-    @winner = @current_player if game_is_over?
   end
 
   def get_comp_spot
