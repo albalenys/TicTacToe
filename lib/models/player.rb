@@ -1,9 +1,9 @@
 class Player
   attr_accessor :marker, :type
 
-  def initialize
+  def initialize(type)
     @marker =  nil
-    @type = nil
+    @type = type
   end
 
   def get_marker
@@ -15,43 +15,46 @@ class Player
     end
   end
 
-  def get_move(board, current_player, last_move)
-    if self.type = "human"
+  def get_move(board, last_move)
+    if self.type == "human"
       spot = gets.chomp
-
       until spot == !(Array("a".."z").include?(spot)) || board.include?(spot.to_i)
         puts "Invalid input; please select an unoccupied spot.\n"
         spot = gets.chomp
       end
-
       spot_index = spot.to_i - 1
-      board[spot_index] = current_player.marker
+      board[spot_index] = self.marker
       last_move = spot
     else
       if board[4] == 5
-        board[4] = current_player.marker
+        board[4] = self.marker
         last_move = 5
       else
-        last_move = best_move(board, current_player)
+        last_move = best_move(board)
       end
     end
   end
 
-  def best_move(board, current_player)
-    available_spots = board.select { |spot| spot unless spot == @player_1.marker || spot == @player_2.marker }
-    best_move = nil
+  def best_move(board)
+    available_spots = board.select { |spot| spot unless spot == 'X' || spot == 'O' }
+    move = nil
 
     available_spots.each do |spot|
       spot_index = spot - 1
-      board[spot_index] = current_player.marker
-      if game_is_over?
-        best_move = spot
+      board[spot_index] = self.marker
+      if Game.game_is_over?(board)
+        move = spot
         break
       else
-        board[spot_index] = next_player.marker
-        if game_is_over?
-          board[spot_index] = current_player.marker
-          best_move = spot
+        if self.marker == 'X'
+          board[spot_index] = 'O'
+        else
+          board[spot_index] = 'X'
+        end
+
+        if Game.game_is_over?(board)
+          board[spot_index] = self.marker
+          move = spot
           break
         else
           board[spot_index] = spot
@@ -59,12 +62,12 @@ class Player
       end
     end
 
-    unless best_move
+    unless move
       spot = available_spots.sample
-      best_move = spot
-      board[spot.to_i - 1] = current_player.marker
+      move = spot
+      board[spot.to_i - 1] = self.marker
     end
 
-    best_move
+    move
   end
 end

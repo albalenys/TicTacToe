@@ -4,8 +4,8 @@ require_relative 'models/player'
 class Game
   def initialize
     @board = Array(1..9)
-    @player_1 = Player.new
-    @player_2 = Player.new
+    @player_1 = nil
+    @player_2 = nil
     @last_move = nil
     @current_player = nil
     @winner = nil
@@ -31,19 +31,19 @@ class Game
     puts "-----------"
     if @game_type == "1"
       puts "You chose Player vs. Computer."
-      @player_1.type = "human"
-      @player_2.type = "computer"
+      @player_1 = Player.new("human")
+      @player_2 = Player.new("computer")
       puts "Choose to play as either 'X' or 'O'."
     elsif @game_type == "2"
       puts "You chose Player vs. Player."
       puts "Player 1, choose to play as either 'X' or 'O'."
-      @player_1.type = "human"
-      @player_2.type = "human"
+      @player_1 = Player.new("human")
+      @player_2 = Player.new("human")
     else
       puts "You chose Computer vs. Computer."
       puts "Please choose either 'X' or 'O' for Player 1."
-      @player_1.type = "computer"
-      @player_2.type = "computer"
+      @player_1 = Player.new("computer")
+      @player_2 = Player.new("computer")
     end
     puts "-----------"
     puts "\n"
@@ -59,28 +59,19 @@ class Game
     get_first_player_turn
     system("clear")
 
-    until (game_is_over? || game_is_tied?)
+    until (Game.game_is_over?(@board) || game_is_tied?)
       header
       puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
       puts self
       switch_player
       puts "\nIt is now Player '#{@current_player.marker}'s turn."
 
-      if @game_type == "1"
-        if @current_player == @player_2
-          print "Player '#{@current_player.marker}' is looking for next move"
-          counter
-        end
-        @current_player.get_move(@board, @current_player, @last_move)
-      elsif @game_type == "2"
-        @player_1.get_move(@board, @current_player, @last_move)
-        @winner = current_player if game_is_over?
-      else
-        print "\nPlayer '#{@current_player.marker}' is moving"
+      if @current_player.type == "computer"
+        print "Player '#{@current_player.marker}' is looking for next move"
         counter
-        @current_player.get_move(@board, @current_player, @last_move)
-        @winner = current_player if game_is_over?
       end
+      @current_player.get_move(@board, @last_move)
+      @winner = @current_player if Game.game_is_over?(@board)
       system("clear")
     end
 
@@ -104,8 +95,8 @@ class Game
     end
   end
 
-  def next_player
-    @current_player == @player_1 ? @player_2 : @player_1
+  def Game.next_player(current_player)
+    current_player == @player_1 ? @player_2 : @player_1
   end
 
   def get_game_type
@@ -134,19 +125,19 @@ class Game
     switch_player #switching players to follow the game flow.
   end
 
-  def game_is_over?
-    [@board[0], @board[1], @board[2]].uniq.length == 1 ||
-    [@board[3], @board[4], @board[5]].uniq.length == 1 ||
-    [@board[6], @board[7], @board[8]].uniq.length == 1 ||
-    [@board[0], @board[3], @board[6]].uniq.length == 1 ||
-    [@board[1], @board[4], @board[7]].uniq.length == 1 ||
-    [@board[2], @board[5], @board[8]].uniq.length == 1 ||
-    [@board[0], @board[4], @board[8]].uniq.length == 1 ||
-    [@board[2], @board[4], @board[6]].uniq.length == 1
+  def self.game_is_over?(board)
+    [board[0], board[1], board[2]].uniq.length == 1 ||
+    [board[3], board[4], board[5]].uniq.length == 1 ||
+    [board[6], board[7], board[8]].uniq.length == 1 ||
+    [board[0], board[3], board[6]].uniq.length == 1 ||
+    [board[1], board[4], board[7]].uniq.length == 1 ||
+    [board[2], board[5], board[8]].uniq.length == 1 ||
+    [board[0], board[4], board[8]].uniq.length == 1 ||
+    [board[2], board[4], board[6]].uniq.length == 1
   end
 
   def game_is_tied?
-    @board.all? { |spots| spots == @player_2.marker || spots == @player_1.marker }
+    @board.all? { |spots| spots == 'X' || spots == 'O' }
   end
 
   def to_s
