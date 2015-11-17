@@ -1,4 +1,5 @@
 require_relative 'game_helper'
+require_relative 'models/player'
 
 class Game
   def initialize
@@ -44,7 +45,7 @@ class Game
     system("clear")
 
     puts "-----------"
-    puts "Player 1 will be #{@player_1}."
+    puts "Player 1 will be #{@player_1.marker}."
     puts "Please choose who goes first. Enter 'X' or 'O'."
     puts "-----------"
     puts "\n"
@@ -53,21 +54,21 @@ class Game
 
     until (game_is_over? || game_is_tied?)
       header
-      puts "\nPlayer '#{@current_player}' moved to position #{@last_move}.\n" if @last_move
+      puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
       puts self
       switch_player
-      puts "\nIt is now Player '#{@current_player}'s turn."
+      puts "\nIt is now Player '#{@current_player.marker}'s turn."
 
       if @game_type == "1"
         if @current_player == @player_2
-          print "Player '#{@current_player}' is looking for next move"
+          print "Player '#{@current_player.marker}' is looking for next move"
           counter
         end
         @current_player == @player_1 ? get_human_spot : get_comp_spot
       elsif @game_type == "2"
         get_human_spot
       else
-        print "\nPlayer '#{@current_player}' is moving"
+        print "\nPlayer '#{@current_player.marker}' is moving"
         counter
         get_comp_spot
       end
@@ -76,9 +77,9 @@ class Game
 
     header
     if game_is_tied?
-      puts "\nGame over. Player '#{@player_1}' and player '#{@player_2}' have tied."
+      puts "\nGame over. Player '#{@player_1.marker}' and player '#{@player_2.marker}' have tied."
     else
-      puts "\nGame over. Player '#{@winner}' has won!"
+      puts "\nGame over. Player '#{@winner.marker}' has won!"
     end
     puts self
     puts "\n"
@@ -108,22 +109,30 @@ class Game
   end
 
   def get_marker
-    @player_1 = gets.chomp.upcase!
+    @player_1 = Player.new
+    @player_2 = Player.new
+    @player_1.marker = gets.chomp.upcase!
 
-    until (@player_1 == "X" || @player_1 == "O")
+    until (@player_1.marker == "X" || @player_1.marker == "O")
       puts "Invalid input; select to play as either 'X' or 'O'."
-      @player_1 = gets.chomp.upcase!
+      @player_1.marker = gets.chomp.upcase!
     end
 
-    @player_1 == 'X' ? @player_2 = 'O' : @player_2 = 'X'
+    @player_1.marker == 'X' ? @player_2.marker = 'O' : @player_2.marker = 'X'
   end
 
   def get_first_player_turn
-    @current_player = gets.chomp.upcase!
+    marker = gets.chomp.upcase!
 
-    until (@current_player == "X" || @current_player == "O")
+    until (marker == "X" || marker == "O")
       puts "Invalid input; please select either 'X' or 'O'."
-      @current_player = gets.chomp.upcase!
+      marker = gets.chomp.upcase!
+    end
+
+    if marker == @player_1.marker
+      @current_player = @player_1
+    else
+      @current_player = @player_2
     end
 
     switch_player #switching players to follow the game flow.
@@ -138,14 +147,14 @@ class Game
     end
 
     spot_index = spot.to_i - 1
-    @board[spot_index] = @current_player
+    @board[spot_index] = @current_player.marker
     @last_move = spot
     @winner = @current_player if game_is_over?
   end
 
   def get_comp_spot
     if @board[4] == 5
-      @board[4] = @current_player
+      @board[4] = @current_player.marker
       @last_move = 5
     else
       @last_move = best_move
@@ -153,20 +162,20 @@ class Game
   end
 
   def best_move
-    available_spots = @board.select { |spot| spot unless spot == @player_2 || spot == @player_1 }
+    available_spots = @board.select { |spot| spot unless spot == @player_2.marker || spot == @player_1.marker }
     best_move = nil
 
     available_spots.each do |spot|
       spot_index = spot - 1
-      @board[spot_index] = @current_player
+      @board[spot_index] = @current_player.marker
       if game_is_over?
         @winner = @current_player
         best_move = spot
         break
       else
-        @board[spot_index] = next_player
+        @board[spot_index] = next_player.marker
         if game_is_over?
-          @board[spot_index] = @current_player
+          @board[spot_index] = @current_player.marker
           best_move = spot
           break
         else
@@ -178,7 +187,7 @@ class Game
     unless best_move
       spot = available_spots.sample
       best_move = spot
-      @board[spot.to_i - 1] = @current_player
+      @board[spot.to_i - 1] = @current_player.marker
     end
 
     best_move
@@ -196,7 +205,7 @@ class Game
   end
 
   def game_is_tied?
-    @board.all? { |spots| spots == @player_2 || spots == @player_1 }
+    @board.all? { |spots| spots == @player_2.marker || spots == @player_1.marker }
   end
 
   def to_s
