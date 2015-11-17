@@ -4,8 +4,8 @@ require_relative 'models/player'
 class Game
   def initialize
     @board = Array(1..9)
-    @player_1 = nil
-    @player_2 = nil
+    @player_1 = Player.new
+    @player_2 = Player.new
     @last_move = nil
     @current_player = nil
     @winner = nil
@@ -41,7 +41,8 @@ class Game
     end
     puts "-----------"
     puts "\n"
-    get_marker
+    @player_1.get_marker
+    @player_1.marker == 'X' ? @player_2.marker = 'O' : @player_2.marker = 'X'
     system("clear")
 
     puts "-----------"
@@ -106,19 +107,6 @@ class Game
       puts "Invalid input; please choose options 1, 2, or 3."
       @game_type = gets.chomp
     end
-  end
-
-  def get_marker
-    @player_1 = Player.new
-    @player_2 = Player.new
-    @player_1.marker = gets.chomp.upcase!
-
-    until (@player_1.marker == "X" || @player_1.marker == "O")
-      puts "Invalid input; select to play as either 'X' or 'O'."
-      @player_1.marker = gets.chomp.upcase!
-    end
-
-    @player_1.marker == 'X' ? @player_2.marker = 'O' : @player_2.marker = 'X'
   end
 
   def get_first_player_turn
