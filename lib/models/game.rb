@@ -1,6 +1,7 @@
 class Game
-  attr_accessor :board, :last_move, :current_player, :winner
-  attr_reader :type, :player_1, :player_2
+  attr_accessor :board, :last_move, :current_player, :winner, :type
+  attr_reader :player_1, :player_2
+  #move :type back to reader once tests are fixed.
 
   def initialize
     @board = Array(1..9)

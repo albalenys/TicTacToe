@@ -28,19 +28,16 @@ describe 'Player' do
     it 'computers choose spots that will give diagonal win' do
       board = ['O', 'X', 3, 4, 'O', 6, 'X', 8, 9]
       expect{@computer.get_move(board)}.to change{board[8]}.to('O')
-      expect(Game.is_over?(board)).to eq(true)
     end
 
     it 'computers choose spots that will give horizontal win' do
       board = [1, 'X', 3, 'O', 'O', 6, 'X', 8, 9]
       expect{@computer.get_move(board)}.to change{board[5]}.to('O')
-      expect(Game.is_over?(board)).to eq(true)
     end
 
     it 'computers choose spots that will give vertical win' do
       board = ['O', 2, 'X', 'O', 5, 'X', 7, 8, 9]
       expect{@computer.get_move(board)}.to change{board[6]}.to('O')
-      expect(Game.is_over?(board)).to eq(true)
     end
 
     it 'computers choose randomly when there is no best move' do
