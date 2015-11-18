@@ -42,7 +42,7 @@ class Player
     available_spots.each do |spot|
       spot_index = spot - 1
       board[spot_index] = self.marker
-      if Game.game_is_over?(board)
+      if Game.is_over?(board)
         move = spot
         break
       else
@@ -52,7 +52,7 @@ class Player
           board[spot_index] = 'X'
         end
 
-        if Game.game_is_over?(board)
+        if Game.is_over?(board)
           board[spot_index] = self.marker
           move = spot
           break
