@@ -18,10 +18,12 @@ class Player
   def get_move(board, last_move)
     if self.type == "human"
       spot = gets.chomp
+
       until spot == !(Array("a".."z").include?(spot)) || board.include?(spot.to_i)
         puts "Invalid input; please select an unoccupied spot.\n"
         spot = gets.chomp
       end
+
       spot_index = spot.to_i - 1
       board[spot_index] = self.marker
       last_move = spot
@@ -46,11 +48,7 @@ class Player
         move = spot
         break
       else
-        if self.marker == 'X'
-          board[spot_index] = 'O'
-        else
-          board[spot_index] = 'X'
-        end
+        self.marker == 'X' ? board[spot_index] = 'O' : board[spot_index] = 'X'
 
         if Game.is_over?(board)
           board[spot_index] = self.marker
@@ -64,10 +62,7 @@ class Player
 
     unless move
       spot = available_spots.sample
-      move = spot
       board[spot.to_i - 1] = self.marker
     end
-
-    move
   end
 end
