@@ -1,7 +1,5 @@
 require_relative '../lib/game'
 
-#comment out the start of game in game.rb before running tests.
-
 describe 'Game' do
   @player_1 = 'X'
   @player_2 = 'O'

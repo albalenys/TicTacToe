@@ -1,4 +1,4 @@
-require_relative 'view_helper'
+require_relative 'view_helpers'
 require_relative 'models/game'
 require_relative 'models/player'
 
