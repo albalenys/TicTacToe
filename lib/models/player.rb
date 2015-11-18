@@ -15,7 +15,7 @@ class Player
     end
   end
 
-  def get_move(board, last_move)
+  def get_move(board)
     if self.type == "human"
       spot = gets.chomp
 
@@ -26,13 +26,13 @@ class Player
 
       spot_index = spot.to_i - 1
       board[spot_index] = self.marker
-      last_move = spot
+      return spot
     else
       if board[4] == 5
         board[4] = self.marker
-        last_move = 5
+        return 5
       else
-        last_move = best_move(board)
+        return best_move(board)
       end
     end
   end
@@ -63,6 +63,9 @@ class Player
     unless move
       spot = available_spots.sample
       board[spot.to_i - 1] = self.marker
+      move = spot
     end
+
+    return move
   end
 end

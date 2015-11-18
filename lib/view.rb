@@ -27,7 +27,7 @@ def gaming_options_text
   puts "\n"
 end
 
-def first_turn_options_text
+def first_turn_options_text(game)
   puts "-----------"
   puts "Player 1 will be #{game.player_1.marker}."
   puts "Please choose who goes first. Enter 'X' or 'O'."
@@ -45,7 +45,7 @@ def counter
   sleep(1)
 end
 
-def end_game_text
+def end_game_text(game)
   if Game.is_tied?(game.board)
     puts "\nGame over. Player '#{game.player_1.marker}' and player '#{game.player_2.marker}' have tied."
   else

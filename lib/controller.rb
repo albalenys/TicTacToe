@@ -9,13 +9,13 @@ gaming_options_text
 game.get_type
 system("clear")
 puts "-----------"
-create_players
+game.create_players
 puts "-----------"
 puts "\n"
 game.player_1.get_marker
 game.player_1.marker == 'X' ? game.player_2.marker = 'O' : game.player_2.marker = 'X'
 system("clear")
-first_turn_options_text
+first_turn_options_text(game)
 game.get_first_player_turn
 system("clear")
 
@@ -30,10 +30,11 @@ until (Game.is_over?(game.board) || Game.is_tied?(game.board))
     print "Player '#{game.current_player.marker}' is looking for next move"
     counter
   end
-  game.current_player.get_move(game.board, game.last_move)
+  game.last_move = game.current_player.get_move(game.board)
+
   game.winner = game.current_player if Game.is_over?(game.board)
   system("clear")
 end
 
 header(game)
-end_game_text
+end_game_text(game)
