@@ -1,4 +1,5 @@
 def instructions
+  system("clear")
   puts "_____ ___  __  _____     __  _____  __  ____"
   puts "  |    |  |      |  /\\  |      |   |  | |--"
   puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___"
@@ -28,6 +29,7 @@ def gaming_options_text
 end
 
 def first_turn_options_text(game)
+  system("clear")
   puts "-----------"
   puts "Player 1 will be #{game.player_1.marker}."
   puts "Please choose who goes first. Enter 'X' or 'O'."

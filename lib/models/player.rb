@@ -31,12 +31,7 @@ class Player
       board[spot_index] = self.marker
       return spot
     else
-      if board[4] == 5
-        board[4] = self.marker
-        return 5
-      else
-        return best_move(board)
-      end
+      return best_move(board)
     end
   end
 
@@ -66,9 +61,14 @@ class Player
     end
 
     unless move
-      spot = available_spots.sample
-      board[spot.to_i - 1] = self.marker
-      move = spot
+      if board[4] == 5
+        board[4] = self.marker
+        move = 5
+      else
+        spot = available_spots.sample
+        board[spot.to_i - 1] = self.marker
+        move = spot
+      end
     end
 
     return move
