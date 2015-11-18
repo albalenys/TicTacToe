@@ -1,18 +1,20 @@
 class Player
-  attr_accessor :marker, :type
+  attr_accessor :type, :marker
 
   def initialize(type)
     @marker =  nil
     @type = type
   end
 
-  def get_marker
+  def get_marker(next_player)
     self.marker = gets.chomp.upcase!
 
     until (self.marker == "X" || self.marker == "O")
       puts "Invalid input; select to play as either 'X' or 'O'."
       self.marker = gets.chomp.upcase!
     end
+
+    self.marker == 'X' ? next_player.marker = 'O' : next_player.marker = 'X'
   end
 
   def get_move(board)
@@ -36,6 +38,8 @@ class Player
       end
     end
   end
+
+  private
 
   def best_move(board)
     available_spots = board.select { |spot| spot unless spot == 'X' || spot == 'O' }

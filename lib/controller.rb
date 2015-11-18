@@ -12,8 +12,7 @@ puts "-----------"
 game.create_players
 puts "-----------"
 puts "\n"
-game.player_1.get_marker
-game.player_1.marker == 'X' ? game.player_2.marker = 'O' : game.player_2.marker = 'X'
+game.player_1.get_marker(game.player_2)
 system("clear")
 first_turn_options_text(game)
 game.get_first_player_turn
