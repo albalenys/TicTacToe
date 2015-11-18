@@ -8,20 +8,14 @@ instructions
 gaming_options_text
 game.get_type
 system("clear")
-
-puts "-----------"]
+puts "-----------"
 create_players
 puts "-----------"
 puts "\n"
 game.player_1.get_marker
 game.player_1.marker == 'X' ? game.player_2.marker = 'O' : game.player_2.marker = 'X'
 system("clear")
-
-puts "-----------"
-puts "Player 1 will be #{game.player_1.marker}."
-puts "Please choose who goes first. Enter 'X' or 'O'."
-puts "-----------"
-puts "\n"
+first_turn_options_text
 game.get_first_player_turn
 system("clear")
 
