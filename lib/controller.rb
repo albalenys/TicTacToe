@@ -8,36 +8,14 @@ instructions
 gaming_options_text
 game.get_type
 system("clear")
-
 puts "-----------"
-if @game_type == "1"
-  puts "You chose Player vs. Computer."
-  game.player_1 = Player.new("human")
-  game.player_2 = Player.new("computer")
-  puts "Choose to play as either 'X' or 'O'."
-elsif @game_type == "2"
-  puts "You chose Player vs. Player."
-  puts "Player 1, choose to play as either 'X' or 'O'."
-  game.player_1 = Player.new("human")
-  game.player_2 = Player.new("human")
-else
-  puts "You chose Computer vs. Computer."
-  puts "Please choose either 'X' or 'O' for Player 1."
-  game.player_1 = Player.new("computer")
-  game.player_2 = Player.new("computer")
-end
-
+create_players
 puts "-----------"
 puts "\n"
 game.player_1.get_marker
 game.player_1.marker == 'X' ? game.player_2.marker = 'O' : game.player_2.marker = 'X'
 system("clear")
-
-puts "-----------"
-puts "Player 1 will be #{game.player_1.marker}."
-puts "Please choose who goes first. Enter 'X' or 'O'."
-puts "-----------"
-puts "\n"
+first_turn_options_text
 game.get_first_player_turn
 system("clear")
 

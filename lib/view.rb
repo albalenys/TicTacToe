@@ -27,6 +27,14 @@ def gaming_options_text
   puts "\n"
 end
 
+def first_turn_options_text
+  puts "-----------"
+  puts "Player 1 will be #{game.player_1.marker}."
+  puts "Please choose who goes first. Enter 'X' or 'O'."
+  puts "-----------"
+  puts "\n"
+end
+
 def counter
   sleep(1)
   print "."
