@@ -24,14 +24,8 @@ until (Game.is_over?(game.board) || Game.is_tied?(game.board))
   puts "\nPlayer '#{game.current_player.marker}' moved to position #{game.last_move}.\n" if game.last_move
   puts game
   game.switch_player
-  puts "\nIt is now Player '#{game.current_player.marker}'s turn."
-
-  if game.current_player.type == "computer"
-    print "Player '#{game.current_player.marker}' is looking for next move"
-    counter
-  end
+  next_turn_text(game)
   game.last_move = game.current_player.get_move(game.board)
-
   game.winner = game.current_player if Game.is_over?(game.board)
   system("clear")
 end

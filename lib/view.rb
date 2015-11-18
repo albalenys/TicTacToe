@@ -35,6 +35,15 @@ def first_turn_options_text(game)
   puts "\n"
 end
 
+def next_turn_text(game)
+  if game.current_player.type == "computer"
+    print "\nPlayer '#{game.current_player.marker}' is looking for next move"
+    counter
+  else
+    puts "\nIt is now Player '#{game.current_player.marker}'s turn."
+  end
+end
+
 def counter
   sleep(1)
   print "."

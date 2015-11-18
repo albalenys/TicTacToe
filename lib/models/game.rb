@@ -26,12 +26,12 @@ class Game
   end
 
   def create_players
-    if @game_type == "1"
+    if @type == "1"
       puts "You chose Player vs. Computer."
       puts "Choose to play as either 'X' or 'O'."
       @player_1 = Player.new("human")
       @player_2 = Player.new("computer")
-    elsif @game_type == "2"
+    elsif @type == "2"
       puts "You chose Player vs. Player."
       puts "Player 1, choose to play as either 'X' or 'O'."
       @player_1 = Player.new("human")
