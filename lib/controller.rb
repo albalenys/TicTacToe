@@ -3,7 +3,6 @@ require_relative 'models/game'
 require_relative 'models/player'
 
 game = Game.new
-system("clear")
 instructions
 gaming_options_text
 game.get_type
@@ -13,7 +12,6 @@ game.create_players
 puts "-----------"
 puts "\n"
 game.player_1.get_marker(game.player_2)
-system("clear")
 first_turn_options_text(game)
 game.get_first_player_turn
 system("clear")

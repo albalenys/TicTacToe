@@ -1,5 +1,3 @@
-require 'pry'
-
 class Game
   attr_accessor :board, :last_move, :current_player, :winner
   attr_reader :type, :player_1, :player_2
