@@ -1,5 +1,6 @@
 class Game
-  attr_accessor :board, :last_move, :current_player, :winner, :type, :player_1, :player_2
+  attr_accessor :board, :last_move, :current_player, :winner
+  attr_reader :type, :player_1, :player_2
 
   def initialize
     @board = Array(1..9)
@@ -12,11 +13,7 @@ class Game
   end
 
   def switch_player
-    if @current_player == @player_1
-      @current_player = @player_2
-    else
-      @current_player = @player_1
-    end
+    @current_player == @player_1 ? @current_player = @player_2 : @current_player = @player_1
   end
 
   def get_type
@@ -25,6 +22,27 @@ class Game
     until (@type == "1" || @type == "2" || @type == "3")
       puts "Invalid input; please choose options 1, 2, or 3."
       @type = gets.chomp
+    end
+
+    create_players
+  end
+
+  def create_players
+    if @game_type == "1"
+      puts "You chose Player vs. Computer."
+      puts "Choose to play as either 'X' or 'O'."
+      game.player_1 = Player.new("human")
+      game.player_2 = Player.new("computer")
+    elsif @game_type == "2"
+      puts "You chose Player vs. Player."
+      puts "Player 1, choose to play as either 'X' or 'O'."
+      game.player_1 = Player.new("human")
+      game.player_2 = Player.new("human")
+    else
+      puts "You chose Computer vs. Computer."
+      puts "Please choose either 'X' or 'O' for Player 1."
+      game.player_1 = Player.new("computer")
+      game.player_2 = Player.new("computer")
     end
   end
 
@@ -36,12 +54,7 @@ class Game
       marker = gets.chomp.upcase!
     end
 
-    if marker == @player_1.marker
-      @current_player = @player_1
-    else
-      @current_player = @player_2
-    end
-
+    marker == @player_1.marker ? @current_player = @player_1 : @current_player = @player_2
     switch_player #switching players to follow the game flow.
   end
 

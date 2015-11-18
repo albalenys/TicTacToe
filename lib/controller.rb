@@ -9,24 +9,8 @@ gaming_options_text
 game.get_type
 system("clear")
 
-puts "-----------"
-if @game_type == "1"
-  puts "You chose Player vs. Computer."
-  game.player_1 = Player.new("human")
-  game.player_2 = Player.new("computer")
-  puts "Choose to play as either 'X' or 'O'."
-elsif @game_type == "2"
-  puts "You chose Player vs. Player."
-  puts "Player 1, choose to play as either 'X' or 'O'."
-  game.player_1 = Player.new("human")
-  game.player_2 = Player.new("human")
-else
-  puts "You chose Computer vs. Computer."
-  puts "Please choose either 'X' or 'O' for Player 1."
-  game.player_1 = Player.new("computer")
-  game.player_2 = Player.new("computer")
-end
-
+puts "-----------"]
+create_players
 puts "-----------"
 puts "\n"
 game.player_1.get_marker
