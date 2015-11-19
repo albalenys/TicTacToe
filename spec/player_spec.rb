@@ -10,9 +10,6 @@ describe 'Player' do
   end
 
   describe '#get_move' do
-    xit 'humans can only choose unoccupied spots' do
-    end
-
     it 'computers choose middle spot when available' do
       board = Array(1..9)
       expect{@computer.get_move(board)}.to change{board[4]}.to('O')
