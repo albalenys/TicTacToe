@@ -9,13 +9,6 @@ describe 'Player' do
     @computer.marker = 'O'
   end
 
-  describe '#get_marker' do
-    xit 'calls for user input' do
-      @player.stub(:gets) {'X'}
-      expect{@player.get_marker(computer)}.to change{@player.marker}.from(nil).to('X')
-    end
-  end
-
   describe '#get_move' do
     xit 'humans can only choose unoccupied spots' do
     end
