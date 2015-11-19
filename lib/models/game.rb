@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
   attr_reader :player_1, :player_2
@@ -48,7 +50,7 @@ class Game
     player_marker = gets.chomp.upcase!
 
     until (player_marker == "X" || player_marker == "O")
-      puts "Invalid input; please select either 'X' or 'O'."
+      puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
       player_marker = gets.chomp.upcase!
     end
 
