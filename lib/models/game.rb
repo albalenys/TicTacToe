@@ -1,3 +1,5 @@
+require 'stringio'
+
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
   attr_reader :player_1, :player_2
