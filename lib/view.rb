@@ -1,8 +1,10 @@
+require 'colorize'
+
 def instructions
   system("clear")
-  puts "_____ ___  __  _____     __  _____  __  ____"
-  puts "  |    |  |      |  /\\  |      |   |  | |--"
-  puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___"
+  puts "_____ ___  __  _____     __  _____  __  ____".colorize(:light_blue )
+  puts "  |    |  |      |  /\\  |      |   |  | |--".colorize(:light_blue )
+  puts "  |   _|_ \\__    | /--\\ \\__    |   \\__/ |___".colorize(:light_blue )
   puts "\n"
   puts "Welcome to Tic Tac Toe!"
   puts "First player to get three in a row wins."
@@ -58,9 +60,9 @@ end
 
 def end_game_text(game)
   if Game.is_tied?(game.board)
-    puts "\nGame over. Player '#{game.player_1.marker}' and player '#{game.player_2.marker}' have tied."
+    puts "\nGame over. Player '#{game.player_1.marker}' and player '#{game.player_2.marker}' have tied.".colorize(:light_blue )
   else
-    puts "\nGame over. Player '#{game.winner.marker}' has won!"
+    puts "\nGame over. Player '#{game.winner.marker}' has won!".colorize(:light_blue )
   end
   puts game
   puts "\n"

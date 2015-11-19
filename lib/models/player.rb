@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Player
   attr_accessor :marker
   attr_reader :type
@@ -11,7 +13,7 @@ class Player
     self.marker = gets.chomp.upcase!
 
     until (self.marker == "X" || self.marker == "O")
-      puts "Invalid input; select to play as either 'X' or 'O'."
+      puts "Invalid input; select to play as either 'X' or 'O'.".colorize(:red )
       self.marker = gets.chomp.upcase!
     end
 
@@ -23,7 +25,7 @@ class Player
       spot = gets.chomp
 
       until spot == !(Array("a".."z").include?(spot)) || board.include?(spot.to_i)
-        puts "Invalid input; please select an unoccupied spot.\n"
+        puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
         spot = gets.chomp
       end
 

@@ -1,9 +1,8 @@
-require 'stringio'
+require 'colorize'
 
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
   attr_reader :player_1, :player_2
-  #move :type back to reader once tests are fixed.
 
   def initialize
     @board = Array(1..9)
@@ -51,7 +50,7 @@ class Game
     player_marker = gets.chomp.upcase!
 
     until (player_marker == "X" || player_marker == "O")
-      puts "Invalid input; please select either 'X' or 'O'."
+      puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
       player_marker = gets.chomp.upcase!
     end
 
@@ -59,18 +58,14 @@ class Game
   end
 
   def self.is_over?(board)
-    status = false
-    row_start = 0
-    col_start = 0
-
-    3.times do
-      status = true if self.three_in_row?(board, row_start, 1) || self.three_in_row?(board, col_start, 3)
-      row_start += 3
-      col_start += 1
-    end
-
-    status = true if self.three_in_row?(board, 0, 4) || self.three_in_row?(board, 2, 2)
-    status
+    [board[0], board[1], board[2]].uniq.length == 1 ||
+    [board[3], board[4], board[5]].uniq.length == 1 ||
+    [board[6], board[7], board[8]].uniq.length == 1 ||
+    [board[0], board[3], board[6]].uniq.length == 1 ||
+    [board[1], board[4], board[7]].uniq.length == 1 ||
+    [board[2], board[5], board[8]].uniq.length == 1 ||
+    [board[0], board[4], board[8]].uniq.length == 1 ||
+    [board[2], board[4], board[6]].uniq.length == 1
   end
 
   def self.is_tied?(board)
@@ -79,11 +74,5 @@ class Game
 
   def to_s
     " _________________\n|     |     |     |\n|  #{@board[0]}  |  #{@board[1]}  |  #{@board[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[3]}  |  #{@board[4]}  |  #{@board[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[6]}  |  #{@board[7]}  |  #{@board[8]}  |\n|_____|_____|_____|"
-  end
-
-  private
-
-  def self.three_in_row?(board, start, increment)
-    [board[start], board[start += increment], board[start += increment]].uniq.length == 1
   end
 end
