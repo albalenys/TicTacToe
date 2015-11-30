@@ -50,38 +50,4 @@ describe 'Game' do
       expect(@game.player_2.type).to eq("computer")
     end
   end
-
-  describe '#self.is_over?' do
-    it 'returns false with no wins' do
-      board = Array(1..9)
-      expect(Game.is_over?(board)).to eq(false)
-    end
-
-    it 'returns true with diagonal win' do
-      board = ['O', 'X', 3, 4, 'O', 6, 'X', 8, 'O']
-      expect(Game.is_over?(board)).to eq(true)
-    end
-
-    it 'returns true with horizontal win' do
-      board = [1, 'X', 3, 'O', 'O', 'O', 'X', 8, 9]
-      expect(Game.is_over?(board)).to eq(true)
-    end
-
-    it 'returns true with vertical win' do
-      board = ['O', 2, 'X', 'O', 5, 'X', 'O', 8, 9]
-      expect(Game.is_over?(board)).to eq(true)
-    end
-  end
-
-  describe '#self.is_tied?' do
-    it 'returns false with no ties' do
-      board = [1, 'X', 3, 'O', 'O', 6, 'X', 8, 9]
-      expect(Game.is_tied?(board)).to eq(false)
-    end
-
-    it 'returns true with tied game' do
-      board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'X', 'O']
-      expect(Game.is_tied?(board)).to eq(true)
-    end
-  end
 end
