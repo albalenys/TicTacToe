@@ -59,11 +59,11 @@ def counter
 end
 
 def end_game_text(game)
-  if Game.is_tied?(game.board)
+  if game.board.is_tied?
     puts "\nGame over. Player '#{game.player_1.marker}' and player '#{game.player_2.marker}' have tied.".colorize(:light_blue )
   else
     puts "\nGame over. Player '#{game.winner.marker}' has won!".colorize(:light_blue )
   end
-  puts game
+  puts game.board
   puts "\n"
 end
