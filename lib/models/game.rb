@@ -1,5 +1,5 @@
 require 'colorize'
-require 'models/board'
+require_relative 'board'
 
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
