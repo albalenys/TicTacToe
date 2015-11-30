@@ -1,6 +1,3 @@
-require 'colorize'
-require_relative 'board'
-
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
   attr_reader :player_1, :player_2
@@ -23,7 +20,7 @@ class Game
     @type = gets.chomp
 
     until (@type == "1" || @type == "2" || @type == "3")
-      puts "Invalid input; please choose options 1, 2, or 3."
+      puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
       @type = gets.chomp
     end
   end

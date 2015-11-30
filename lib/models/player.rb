@@ -1,5 +1,3 @@
-require 'colorize'
-
 class Player
   attr_accessor :marker
   attr_reader :type
