@@ -19,16 +19,18 @@ class Player
   end
 
   def get_move(board)
+    board_array = board.spots
+
     if self.type == "human"
       spot = gets.chomp
 
-      until spot == !(Array("a".."z").include?(spot)) || board.include?(spot.to_i)
+      until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
         puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
         spot = gets.chomp
       end
 
       spot_index = spot.to_i - 1
-      board[spot_index] = self.marker
+      board_array[spot_index] = self.marker
       return spot
     else
       return best_move(board)
@@ -38,35 +40,37 @@ class Player
   private
 
   def best_move(board)
-    available_spots = board.select { |spot| spot unless spot == 'X' || spot == 'O' }
+    board_array = board.spots
+
+    available_spots = board_array.select { |spot| spot unless spot == 'X' || spot == 'O' }
     move = nil
 
     available_spots.each do |spot|
       spot_index = spot - 1
-      board[spot_index] = self.marker
-      if Game.is_over?(board)
+      board_array[spot_index] = self.marker
+      if board.is_over?
         move = spot
         break
       else
-        self.marker == 'X' ? board[spot_index] = 'O' : board[spot_index] = 'X'
+        self.marker == 'X' ? board[spot_index] = 'O' : board_array[spot_index] = 'X'
 
-        if Game.is_over?(board)
-          board[spot_index] = self.marker
+        if board.is_over?
+          board_array[spot_index] = self.marker
           move = spot
           break
         else
-          board[spot_index] = spot
+          board_array[spot_index] = spot
         end
       end
     end
 
     unless move
-      if board[4] == 5
-        board[4] = self.marker
+      if board_array[4] == 5
+        board_array[4] = self.marker
         move = 5
       else
         spot = available_spots.sample
-        board[spot.to_i - 1] = self.marker
+        board_array[spot.to_i - 1] = self.marker
         move = spot
       end
     end

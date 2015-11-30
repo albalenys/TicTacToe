@@ -1,10 +1,7 @@
 require_relative '../lib/models/player'
 require_relative '../lib/models/game'
-require 'stringio'
-
-def capture_name
-  $stdin.gets.chomp
-end
+require_relative '../lib/models/board'
+require 'colorize'
 
 describe 'Game' do
   before(:all) do
@@ -17,14 +14,6 @@ describe 'Game' do
       @game.create_players
       @game.current_player = @game.player_1
       expect{@game.switch_player}.to change{@game.current_player}.from(@game.player_1).to(@game.player_2)
-    end
-  end
-
-  describe '#get_type' do
-    it 'sets @type with valid input' do
-      @game.stub(:gets) { '1' }
-      @game.get_type
-      expect(@game.type).to eq('1')
     end
   end
 
