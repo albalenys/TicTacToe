@@ -1,11 +1,12 @@
 require 'colorize'
+require 'models/board'
 
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
   attr_reader :player_1, :player_2
 
   def initialize
-    @board = Array(1..9)
+    @board = Board.new
     @player_1 = nil
     @player_2 = nil
     @last_move = nil
@@ -55,24 +56,5 @@ class Game
     end
 
     player_marker == @player_1.marker ? @current_player = @player_2 : @current_player = @player_1
-  end
-
-  def self.is_over?(board)
-    [board[0], board[1], board[2]].uniq.length == 1 ||
-    [board[3], board[4], board[5]].uniq.length == 1 ||
-    [board[6], board[7], board[8]].uniq.length == 1 ||
-    [board[0], board[3], board[6]].uniq.length == 1 ||
-    [board[1], board[4], board[7]].uniq.length == 1 ||
-    [board[2], board[5], board[8]].uniq.length == 1 ||
-    [board[0], board[4], board[8]].uniq.length == 1 ||
-    [board[2], board[4], board[6]].uniq.length == 1
-  end
-
-  def self.is_tied?(board)
-    board.all? { |spots| spots == 'X' || spots == 'O' }
-  end
-
-  def to_s
-    " _________________\n|     |     |     |\n|  #{@board[0]}  |  #{@board[1]}  |  #{@board[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[3]}  |  #{@board[4]}  |  #{@board[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@board[6]}  |  #{@board[7]}  |  #{@board[8]}  |\n|_____|_____|_____|"
   end
 end
