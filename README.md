@@ -6,6 +6,10 @@ Tic Tac Toe console game designed for <a href="https://8thlight.com/">8th Light<
 ###Instructions
 The first player to reach three in a row wins!
 
-To run the game, enter 'ruby game.rb' in the game's directory (lib/game.rb) and follow the instructions.
-Users are able to choose between player vs. player, player vs. computer, and computer vs. computer.
+To run the game, enter 'ruby play.rb' in the game's root directory and follow the instructions.
 
+```
+ruby play.rb
+```
+
+Users are able to choose between player vs. player, player vs. computer, and computer vs. computer.
