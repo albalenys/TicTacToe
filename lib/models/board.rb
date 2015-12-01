@@ -20,6 +20,8 @@ class Board
     @spots.all? { |spots| spots == 'X' || spots == 'O' }
   end
 
+  private
+
   def to_s
     " _________________\n|     |     |     |\n|  #{@spots[0]}  |  #{@spots[1]}  |  #{@spots[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@spots[3]}  |  #{@spots[4]}  |  #{@spots[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{@spots[6]}  |  #{@spots[7]}  |  #{@spots[8]}  |\n|_____|_____|_____|"
   end

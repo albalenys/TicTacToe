@@ -17,7 +17,7 @@ first_turn_options_text(game)
 game.get_first_player_turn
 system("clear")
 
-until (game.board.three_in_row? || game.board.all_spots_taken??)
+until (game.board.three_in_row? || game.board.all_spots_taken?)
   header(game)
   puts "\nPlayer '#{game.current_player.marker}' moved to position #{game.last_move}.\n" if game.last_move
   puts game.board
