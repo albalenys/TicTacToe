@@ -1,14 +1,25 @@
-require_relative '../lib/models/player'
-require_relative '../lib/models/game'
-require_relative '../lib/models/board'
+require_relative '../lib/player'
+require_relative '../lib/board'
+require_relative '../lib/display'
 
 describe 'Player' do
-  before(:all) do
+  before do
+    Player.send(:public, *Player.private_instance_methods)
     @board = Board.new
     @player = Player.new("human")
     @player.marker = 'X'
     @computer = Player.new("computer")
     @computer.marker = 'O'
+  end
+
+  describe '#get_marker' do
+    xit 'changes @marker with valid user input' do
+      @player.input = StringIO.new("X")
+      expect{ @player.get_marker(@computer) }.to change{ @player.marker }.from(nil).to("X")
+    end
+
+    xit 'does not change @marker with invalid user input' do
+    end
   end
 
   describe '#get_move' do

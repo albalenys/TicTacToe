@@ -4,7 +4,8 @@ require_relative 'player'
 require_relative 'board'
 
 class Game
-  attr_reader :player_1, :player_2, :type, :board, :winner
+  attr_accessor :type, :current_player, :input
+  attr_reader :player_1, :player_2, :board, :winner
 
   def initialize
     @board = Board.new
@@ -14,6 +15,7 @@ class Game
     @current_player = nil
     @winner = nil
     @type = nil
+    self.input = $stdin
   end
 
   def setup
@@ -48,10 +50,10 @@ class Game
   end
 
   def get_type
-    @type = gets.chomp
+    @type = input.gets.chomp
     until (@type == "1" || @type == "2" || @type == "3")
       Display.error_message(1)
-      @type = gets.chomp
+      @type = input.gets.chomp
     end
   end
 
@@ -72,15 +74,11 @@ class Game
   end
 
   def get_first_player_turn
-    player_marker = gets.chomp.upcase!
+    player_marker = input.gets.chomp.upcase!
     until (player_marker == "X" || player_marker == "O")
       Display.error_message(2)
-      player_marker = gets.chomp.upcase!
+      player_marker = input.gets.chomp.upcase!
     end
     player_marker == @player_1.marker ? @current_player = @player_2 : @current_player = @player_1
   end
 end
-
-game = Game.new
-game.setup
-game.start
