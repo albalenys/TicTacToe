@@ -1,3 +1,8 @@
+require_relative 'view'
+require_relative 'game'
+require_relative 'player'
+require_relative 'board'
+
 class Game
   attr_accessor :board, :last_move, :current_player, :winner, :type
   attr_reader :player_1, :player_2
@@ -10,6 +15,36 @@ class Game
     @current_player = nil
     @winner = nil
     @type = nil
+
+    instructions
+  end
+
+  def start_game
+    gaming_options_text
+    get_type
+    system("clear")
+    puts "-----------"
+    create_players
+    puts "-----------"
+    puts "\n"
+    @player_1.get_marker(@player_2)
+    first_turn_options_text(self)
+    get_first_player_turn
+    system("clear")
+
+    until (@board.three_in_row? || @board.all_spots_taken?)
+      header(self)
+      puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
+      puts @board
+      switch_player
+      next_turn_text(self)
+      @last_move = @current_player.get_move(@board)
+      @winner = @current_player if @board.three_in_row?
+      system("clear")
+    end
+
+    header(self)
+    end_game_text(self)
   end
 
   def switch_player
@@ -55,3 +90,6 @@ class Game
     player_marker == @player_1.marker ? @current_player = @player_2 : @current_player = @player_1
   end
 end
+
+game = Game.new
+game.start_game

@@ -26,7 +26,9 @@ class Player
   private
 
   def human_move(board)
+    board_array = board.spots
     spot = gets.chomp
+
     until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
       puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
       spot = gets.chomp
