@@ -13,6 +13,7 @@ class Display
     end
 
     def header(game)
+      system("clear")
       puts "-----------"
       if game.type == "1"
         puts "Player: '#{game.player_1.marker}'"
@@ -66,32 +67,40 @@ class Display
       else
         puts "\nGame over. Player '#{game.winner.marker}' has won!".colorize(:light_blue )
       end
-      puts game.board
+      Display.board(game.board.spots)
       puts "\n"
       puts "Press any key to start a new game."
     end
 
     def error_messages(number)
       case number
-        when 1
-          puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
-        when 2
-          puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
-        end
+      when 1
+        puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
+      when 2
+        puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
+      end
     end
 
     def get_marker_prompt(number)
+      system("clear")
+      puts "-----------"
       case number
-        when 1
-          puts "You chose Player vs. Computer."
-          puts "Choose to play as either 'X' or 'O'."
-        when 2
-          puts "You chose Player vs. Player."
-          puts "Player 1, choose to play as either 'X' or 'O'."
-        when 3
-          puts "You chose Computer vs. Computer."
-          puts "Please choose either 'X' or 'O' for Player 1."
-        end
+      when 1
+        puts "You chose Player vs. Computer."
+        puts "Choose to play as either 'X' or 'O'."
+      when 2
+        puts "You chose Player vs. Player."
+        puts "Player 1, choose to play as either 'X' or 'O'."
+      when 3
+        puts "You chose Computer vs. Computer."
+        puts "Please choose either 'X' or 'O' for Player 1."
+      end
+      puts "-----------"
+      puts "\n"
+    end
+
+    def board(spots)
+      puts " _________________\n|     |     |     |\n|  #{spots[0]}  |  #{spots[1]}  |  #{spots[2]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{spots[3]}  |  #{spots[4]}  |  #{spots[5]}  |\n|_____|_____|_____|\n|     |     |     |\n|  #{spots[6]}  |  #{spots[7]}  |  #{spots[8]}  |\n|_____|_____|_____|"
     end
   end
 end

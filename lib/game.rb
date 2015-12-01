@@ -20,27 +20,22 @@ class Game
     Display.instructions
     Display.gaming_options_text
     get_type
-    system("clear")
-    puts "-----------"
     create_players
-    puts "-----------"
-    puts "\n"
     @player_1.get_marker(@player_2)
     Display.first_turn_options_text(@player_1)
     get_first_player_turn
-    system("clear")
   end
 
   def start
     until (@board.three_in_row? || @board.all_spots_taken?)
       Display.header(self)
       puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
-      puts @board
+      Display.board(@board.spots)
       switch_player
       Display.next_turn_text(@current_player)
       @last_move = @current_player.get_move(@board)
       @winner = @current_player if @board.three_in_row?
-      system("clear")
+      # system("clear")
     end
     Display.header(self)
     Display.end_game_text(self)
