@@ -74,10 +74,10 @@ class Game
   end
 
   def get_first_player_turn
-    player_marker = gets.chomp.upcase!
+    player_marker = input.gets.chomp.upcase!
     until (player_marker == "X" || player_marker == "O")
       Display.error_message(2)
-      player_marker = gets.chomp.upcase!
+      player_marker = input.gets.chomp.upcase!
     end
     player_marker == @player_1.marker ? @current_player = @player_2 : @current_player = @player_1
   end
