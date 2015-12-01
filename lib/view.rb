@@ -66,6 +66,7 @@ def end_game_text(game)
   end
   puts game.board
   puts "\n"
+  puts "Press any key to start a new game."
 end
 
 def error_messages(number)

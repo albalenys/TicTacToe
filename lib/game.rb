@@ -17,7 +17,7 @@ class Game
     @type = nil
   end
 
-  def game_setup
+  def setup
     instructions
     gaming_options_text
     get_type
@@ -30,12 +30,9 @@ class Game
     first_turn_options_text(self)
     get_first_player_turn
     system("clear")
-    start_game
-    header(self)
-    end_game_text(self)
   end
 
-  def start_game
+  def start
     until (@board.three_in_row? || @board.all_spots_taken?)
       header(self)
       puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
@@ -46,7 +43,12 @@ class Game
       @winner = @current_player if @board.three_in_row?
       system("clear")
     end
+    header(self)
+    end_game_text(self)
+    gets
   end
+
+  private
 
   def switch_player
     @current_player == @player_1 ? @current_player = @player_2 : @current_player = @player_1
@@ -93,5 +95,5 @@ class Game
 end
 
 game = Game.new
-game.game_setup
-game.start_game
+game.setup
+game.start
