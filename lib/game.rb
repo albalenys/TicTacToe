@@ -27,7 +27,7 @@ class Game
     puts "-----------"
     puts "\n"
     @player_1.get_marker(@player_2)
-    first_turn_options_text(self)
+    first_turn_options_text(@player_1)
     get_first_player_turn
     system("clear")
   end
@@ -38,7 +38,7 @@ class Game
       puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
       puts @board
       switch_player
-      next_turn_text(self)
+      next_turn_text(@current_player)
       @last_move = @current_player.get_move(@board)
       @winner = @current_player if @board.three_in_row?
       system("clear")
@@ -56,7 +56,6 @@ class Game
 
   def get_type
     @type = gets.chomp
-
     until (@type == "1" || @type == "2" || @type == "3")
       error_message(1)
       @type = gets.chomp
@@ -65,18 +64,15 @@ class Game
 
   def create_players
     if @type == "1"
-      puts "You chose Player vs. Computer."
-      puts "Choose to play as either 'X' or 'O'."
+      get_marker_prompt(1)
       @player_1 = Player.new("human")
       @player_2 = Player.new("computer")
     elsif @type == "2"
-      puts "You chose Player vs. Player."
-      puts "Player 1, choose to play as either 'X' or 'O'."
+      get_marker_prompt(2)
       @player_1 = Player.new("human")
       @player_2 = Player.new("human")
     else
-      puts "You chose Computer vs. Computer."
-      puts "Please choose either 'X' or 'O' for Player 1."
+      get_marker_prompt(3)
       @player_1 = Player.new("computer")
       @player_2 = Player.new("computer")
     end
@@ -84,12 +80,10 @@ class Game
 
   def get_first_player_turn
     player_marker = gets.chomp.upcase!
-
     until (player_marker == "X" || player_marker == "O")
       error_message(2)
       player_marker = gets.chomp.upcase!
     end
-
     player_marker == @player_1.marker ? @current_player = @player_2 : @current_player = @player_1
   end
 end

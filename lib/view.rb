@@ -30,21 +30,21 @@ def gaming_options_text
   puts "\n"
 end
 
-def first_turn_options_text(game)
+def first_turn_options_text(player)
   system("clear")
   puts "-----------"
-  puts "Player 1 will be #{game.player_1.marker}."
+  puts "Player 1 will be #{player.marker}."
   puts "Please choose who goes first. Enter 'X' or 'O'."
   puts "-----------"
   puts "\n"
 end
 
-def next_turn_text(game)
-  if game.current_player.type == "computer"
-    print "\nPlayer '#{game.current_player.marker}' is looking for next move"
+def next_turn_text(current_player)
+  if current_player.type == "computer"
+    print "\nPlayer '#{current_player.marker}' is looking for next move"
     counter
   else
-    puts "\nIt is now Player '#{game.current_player.marker}'s turn."
+    puts "\nIt is now Player '#{current_player.marker}'s turn."
   end
 end
 
@@ -75,5 +75,19 @@ def error_messages(number)
       puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
     when 2
       puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
+    end
+end
+
+def get_marker_prompt(number)
+  case number
+    when 1
+      puts "You chose Player vs. Computer."
+      puts "Choose to play as either 'X' or 'O'."
+    when 2
+      puts "You chose Player vs. Player."
+      puts "Player 1, choose to play as either 'X' or 'O'."
+    when 3
+      puts "You chose Computer vs. Computer."
+      puts "Please choose either 'X' or 'O' for Player 1."
     end
 end
