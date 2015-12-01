@@ -67,3 +67,12 @@ def end_game_text(game)
   puts game.board
   puts "\n"
 end
+
+def error_messages(number)
+  case number
+    when 1
+      puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
+    when 2
+      puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
+    end
+end

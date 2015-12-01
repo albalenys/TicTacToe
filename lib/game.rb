@@ -15,11 +15,10 @@ class Game
     @current_player = nil
     @winner = nil
     @type = nil
-
-    instructions
   end
 
   def start_game
+    instructions
     gaming_options_text
     get_type
     system("clear")
@@ -55,7 +54,7 @@ class Game
     @type = gets.chomp
 
     until (@type == "1" || @type == "2" || @type == "3")
-      puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
+      error_message(1)
       @type = gets.chomp
     end
   end
@@ -83,7 +82,7 @@ class Game
     player_marker = gets.chomp.upcase!
 
     until (player_marker == "X" || player_marker == "O")
-      puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
+      error_message(2)
       player_marker = gets.chomp.upcase!
     end
 
