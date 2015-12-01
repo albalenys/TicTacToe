@@ -21,7 +21,7 @@ describe 'Game' do
       expect{ @game.get_type }.to change{ @game.type }.from(nil).to("1")
     end
 
-    it 'does not change @type with invalid user input' do
+    xit 'does not change @type with invalid user input' do
     end
   end
 
@@ -58,7 +58,7 @@ describe 'Game' do
       expect{ @game.get_first_player_turn }.to change{ @game.current_player }.from(nil).to(@player_2)
     end
 
-    it 'does not set current_player with invalid user input' do
+    xit 'does not set current_player with invalid user input' do
     end
   end
 end

@@ -4,8 +4,8 @@ require_relative 'player'
 require_relative 'board'
 
 class Game
+  attr_accessor :type, :current_player, :input
   attr_reader :player_1, :player_2, :board, :winner
-  attr_accessor :type, :current_player, :input, :output
 
   def initialize
     @board = Board.new
