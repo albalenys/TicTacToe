@@ -48,13 +48,13 @@ class Player
     available_spots.each do |spot|
       spot_index = spot - 1
       board_array[spot_index] = self.marker
-      if board.is_over?
+      if board.three_in_row?
         move = spot
         break
       else
         self.marker == 'X' ? board[spot_index] = 'O' : board_array[spot_index] = 'X'
 
-        if board.is_over?
+        if board.three_in_row?
           board_array[spot_index] = self.marker
           move = spot
           break

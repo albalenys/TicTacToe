@@ -17,14 +17,14 @@ first_turn_options_text(game)
 game.get_first_player_turn
 system("clear")
 
-until (game.board.is_over? || game.board.is_tied?)
+until (game.board.three_in_row? || game.board.all_spots_taken?)
   header(game)
   puts "\nPlayer '#{game.current_player.marker}' moved to position #{game.last_move}.\n" if game.last_move
   puts game.board
   game.switch_player
   next_turn_text(game)
   game.last_move = game.current_player.get_move(game.board.spots)
-  game.winner = game.current_player if game.board.is_over?
+  game.winner = game.current_player if game.board.three_in_row?
   system("clear")
 end
 
