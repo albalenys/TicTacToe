@@ -82,6 +82,8 @@ class Display
         puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
       when 2
         puts "Invalid input; please select either 'X' or 'O'.".colorize(:red )
+      when 3
+        puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
       end
     end
 
