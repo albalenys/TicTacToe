@@ -9,12 +9,10 @@ class Player
 
   def get_marker(next_player)
     self.marker = gets.chomp.upcase!
-
     until (self.marker == "X" || self.marker == "O")
-      puts "Invalid input; select to play as either 'X' or 'O'.".colorize(:red )
+      Display.error_message(2)
       self.marker = gets.chomp.upcase!
     end
-
     self.marker == 'X' ? next_player.marker = 'O' : next_player.marker = 'X'
   end
 
@@ -30,7 +28,7 @@ class Player
     spot = gets.chomp
 
     until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
-      puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
+      Display.error_message(3)
       spot = gets.chomp
     end
 
@@ -41,7 +39,6 @@ class Player
 
   def computer_move(board)
     board_array = board.spots
-
     available_spots = board_array.select { |spot| spot unless spot == 'X' || spot == 'O' }
     move = nil
 
@@ -52,7 +49,7 @@ class Player
         move = spot
         break
       else
-        self.marker == 'X' ? board[spot_index] = 'O' : board_array[spot_index] = 'X'
+        self.marker == 'X' ? board_array[spot_index] = 'O' : board_array[spot_index] = 'X'
 
         if board.three_in_row?
           board_array[spot_index] = self.marker
