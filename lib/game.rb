@@ -18,26 +18,26 @@ class Game
 
   def setup
     Display.instructions
-    Display.gaming_options_text
+    Display.gaming_options
     get_type
     create_players
     @player_1.get_marker(@player_2)
-    Display.first_turn_options_text(@player_1)
+    Display.first_turn_options(@player_1)
     get_first_player_turn
   end
 
   def start
     until (@board.three_in_row? || @board.all_spots_taken?)
       Display.header(self)
-      Display.last_move_text(@current_player, @last_move)
+      Display.last_move(@current_player, @last_move)
       Display.board(@board.spots)
       switch_player
-      Display.next_turn_text(@current_player)
+      Display.next_turn(@current_player)
       @last_move = @current_player.get_move(@board)
       @winner = @current_player if @board.three_in_row?
     end
     Display.header(self)
-    Display.end_game_text(self)
+    Display.final_score(self)
     gets
   end
 
@@ -57,15 +57,15 @@ class Game
 
   def create_players
     if @type == "1"
-      Display.get_marker_prompt(1)
+      Display.marker_options(1)
       @player_1 = Player.new("human")
       @player_2 = Player.new("computer")
     elsif @type == "2"
-      Display.get_marker_prompt(2)
+      Display.marker_options(2)
       @player_1 = Player.new("human")
       @player_2 = Player.new("human")
     else
-      Display.get_marker_prompt(3)
+      Display.marker_options(3)
       @player_1 = Player.new("computer")
       @player_2 = Player.new("computer")
     end

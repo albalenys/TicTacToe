@@ -25,7 +25,7 @@ class Display
       puts "-----------"
     end
 
-    def gaming_options_text
+    def gaming_options
       puts "Choose from the following gaming options (1, 2, or 3)."
       puts "\n[ 1 ] Player vs. Computer"
       puts "[ 2 ] Player vs. Player"
@@ -33,7 +33,7 @@ class Display
       puts "\n"
     end
 
-    def first_turn_options_text(player)
+    def first_turn_options(player)
       system("clear")
       puts "-----------"
       puts "Player 1 will be #{player.marker}."
@@ -42,11 +42,11 @@ class Display
       puts "\n"
     end
 
-    def last_move_text(current_player, last_move)
+    def last_move(current_player, last_move)
       puts "\nPlayer '#{current_player.marker}' moved to position #{last_move}.\n" if last_move
     end
 
-    def next_turn_text(current_player)
+    def next_turn(current_player)
       if current_player.type == "computer"
         print "\nPlayer '#{current_player.marker}' is looking for next move"
         counter
@@ -65,7 +65,7 @@ class Display
       sleep(1)
     end
 
-    def end_game_text(game)
+    def final_score(game)
       if game.board.all_spots_taken?
         puts "\nGame over. Player '#{game.player_1.marker}' and player '#{game.player_2.marker}' have tied.".colorize(:light_blue )
       else
@@ -76,7 +76,7 @@ class Display
       puts "Press any key to start a new game."
     end
 
-    def error_messages(number)
+    def error_message(number)
       case number
       when 1
         puts "Invalid input; please choose options 1, 2, or 3.".colorize(:red )
@@ -85,7 +85,7 @@ class Display
       end
     end
 
-    def get_marker_prompt(number)
+    def marker_options(number)
       system("clear")
       puts "-----------"
       case number
