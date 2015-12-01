@@ -23,7 +23,7 @@ until (game.board.three_in_row? || game.board.all_spots_taken?)
   puts game.board
   game.switch_player
   next_turn_text(game)
-  game.last_move = game.current_player.get_move(game.board.spots)
+  game.last_move = game.current_player.get_move(game.board)
   game.winner = game.current_player if game.board.three_in_row?
   system("clear")
 end

@@ -20,26 +20,24 @@ class Player
 
   def get_move(board)
     board_array = board.spots
-
-    if self.type == "human"
-      spot = gets.chomp
-
-      until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
-        puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
-        spot = gets.chomp
-      end
-
-      spot_index = spot.to_i - 1
-      board_array[spot_index] = self.marker
-      return spot
-    else
-      return best_move(board)
-    end
+    self.type == "human" ? human_move(board) : computer_move(board)
   end
 
   private
 
-  def best_move(board)
+  def human_move(board)
+    spot = gets.chomp
+    until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
+      puts "Invalid input; please select an unoccupied spot.\n".colorize(:red )
+      spot = gets.chomp
+    end
+
+    spot_index = spot.to_i - 1
+    board_array[spot_index] = self.marker
+    return spot
+  end
+
+  def computer_move(board)
     board_array = board.spots
 
     available_spots = board_array.select { |spot| spot unless spot == 'X' || spot == 'O' }
