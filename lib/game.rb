@@ -29,13 +29,12 @@ class Game
   def start
     until (@board.three_in_row? || @board.all_spots_taken?)
       Display.header(self)
-      puts "\nPlayer '#{@current_player.marker}' moved to position #{@last_move}.\n" if @last_move
+      Display.last_move_text(@current_player, @last_move)
       Display.board(@board.spots)
       switch_player
       Display.next_turn_text(@current_player)
       @last_move = @current_player.get_move(@board)
       @winner = @current_player if @board.three_in_row?
-      # system("clear")
     end
     Display.header(self)
     Display.end_game_text(self)

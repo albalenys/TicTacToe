@@ -42,6 +42,10 @@ class Display
       puts "\n"
     end
 
+    def last_move_text(current_player, last_move)
+      puts "\nPlayer '#{current_player.marker}' moved to position #{last_move}.\n" if last_move
+    end
+
     def next_turn_text(current_player)
       if current_player.type == "computer"
         print "\nPlayer '#{current_player.marker}' is looking for next move"
