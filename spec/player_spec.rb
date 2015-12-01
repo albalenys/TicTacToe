@@ -1,6 +1,5 @@
-require_relative '../lib/models/player'
-require_relative '../lib/models/game'
-require_relative '../lib/models/board'
+require_relative '../lib/player'
+require_relative '../lib/board'
 
 describe 'Player' do
   before(:all) do

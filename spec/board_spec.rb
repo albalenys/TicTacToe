@@ -1,4 +1,4 @@
-require_relative '../lib/models/board'
+require_relative '../lib/board'
 
 describe 'Board' do
   before(:all) do
