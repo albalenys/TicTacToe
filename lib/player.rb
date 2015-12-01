@@ -52,7 +52,7 @@ class Player
         move = spot
         break
       else
-        self.marker == 'X' ? board[spot_index] = 'O' : board_array[spot_index] = 'X'
+        self.marker == 'X' ? board_array[spot_index] = 'O' : board_array[spot_index] = 'X'
 
         if board.three_in_row?
           board_array[spot_index] = self.marker
