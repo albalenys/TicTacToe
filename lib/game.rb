@@ -80,7 +80,3 @@ class Game
     player_marker == @player_1.marker ? @current_player = @player_2 : @current_player = @player_1
   end
 end
-
-game = Game.new
-game.setup
-game.start
