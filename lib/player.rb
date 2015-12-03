@@ -25,35 +25,26 @@ class Player
   private
 
   def human_move(board)
-    board_array = board.spots
     spot = gets.chomp
-
-    until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
+    until spot == !(Array("a".."z").include?(spot)) || board.spots.include?(spot.to_i)
       Display.error_message(3)
       spot = gets.chomp
     end
-
-    spot_index = spot.to_i - 1
-    board_array[spot_index] = @marker
+    board.spots[spot.to_i - 1] = @marker
     return spot
   end
 
   def computer_move(board)
-    board_array = board.spots
-    move = nil
-
     unless best_move(board)
-      if board_array[4] == 5
-        board_array[4] = @marker
-        move = 5
+      if board.spots[4] == 5
+        board.spots[4] = @marker
+        return 5
       else
         spot = board.available_spots.sample
-        board_array[spot.to_i - 1] = @marker
-        move = spot
+        board.spots[spot.to_i - 1] = @marker
+        return spot
       end
     end
-
-    return move
   end
 
   def best_move(board)
