@@ -34,7 +34,9 @@ class Player
   end
 
   def computer_move(board)
-    unless best_move(board)
+    if best_move(board)
+      return best_move(board)
+    else
       if board.spots[4] == 5
         board.spots[4] = @marker
         return 5
