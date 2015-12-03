@@ -1,3 +1,5 @@
+require_relative 'helpers'
+
 class Player
   attr_accessor :marker, :input
   attr_reader :type
@@ -29,7 +31,7 @@ class Player
       Display.error_message(3)
       spot = gets.chomp
     end
-    board.spots[spot.to_i - 1] = @marker
+    board.spots[index(spot)] = @marker
     return spot
   end
 
@@ -42,7 +44,7 @@ class Player
         return 5
       else
         spot = board.available_spots.sample
-        board.spots[spot.to_i - 1] = @marker
+        board.spots[index(spot)] = @marker
         return spot
       end
     end
@@ -51,19 +53,19 @@ class Player
   def best_move(board)
     move = nil
     board.available_spots.each do |spot|
-      board.spots[spot - 1] = @marker
+      board.spots[index(spot)] = @marker
       if board.three_in_row?
         move = spot
         return move
       else
-        @marker == 'X' ? board.spots[spot - 1] = 'O' : board.spots[spot - 1] = 'X'
+        @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
 
         if board.three_in_row?
-          board.spots[spot - 1] = @marker
+          board.spots[index(spot)] = @marker
           move = spot
           return move
         else
-          board.spots[spot - 1] = spot
+          board.spots[index(spot)] = spot
         end
       end
     end
