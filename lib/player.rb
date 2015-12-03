@@ -54,15 +54,7 @@ class Player
         move = spot
         return move
       else
-        @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
-
-        if board.three_in_row?
-          board.spots[index(spot)] = @marker
-          move = spot
-          return move
-        else
-          board.spots[index(spot)] = spot
-        end
+        avoid_lose(board, spot)
       end
     end
     return move
@@ -72,6 +64,16 @@ class Player
     spot = board.available_spots.sample
     board.spots[index(spot)] = @marker
     return spot
+  end
+
+  def avoid_lose(board, spot)
+    @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
+    if board.three_in_row?
+      board.spots[index(spot)] = @marker
+      return spot
+    else
+      board.spots[index(spot)] = spot
+    end
   end
 
 end
