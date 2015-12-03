@@ -40,7 +40,6 @@ class Player
 
   def computer_move(board)
     board_array = board.spots
-    available_spots = board_array.select { |spot| spot unless spot == 'X' || spot == 'O' }
     move = nil
 
     unless best_move(board)
@@ -48,7 +47,7 @@ class Player
         board_array[4] = @marker
         move = 5
       else
-        spot = available_spots.sample
+        spot = board.available_spots.sample
         board_array[spot.to_i - 1] = @marker
         move = spot
       end
@@ -59,10 +58,9 @@ class Player
 
   def best_move(board)
     board_array = board.spots
-    available_spots = board_array.select { |spot| spot unless spot == 'X' || spot == 'O' }
     move = nil
 
-    available_spots.each do |spot|
+    board.available_spots.each do |spot|
       spot_index = spot - 1
       board_array[spot_index] = @marker
       if board.three_in_row?
