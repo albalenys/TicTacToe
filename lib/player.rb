@@ -38,15 +38,11 @@ class Player
   def computer_move(board)
     if best_move(board)
       return best_move(board)
+    elsif board.spots[4] == 5
+      board.spots[4] = @marker
+      return 5
     else
-      if board.spots[4] == 5
-        board.spots[4] = @marker
-        return 5
-      else
-        spot = board.available_spots.sample
-        board.spots[index(spot)] = @marker
-        return spot
-      end
+      return pick_random_spot(board)
     end
   end
 
@@ -70,6 +66,12 @@ class Player
       end
     end
     return move
+  end
+
+  def pick_random_spot(board)
+    spot = board.available_spots.sample
+    board.spots[index(spot)] = @marker
+    return spot
   end
 
 end
