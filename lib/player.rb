@@ -18,7 +18,6 @@ class Player
   end
 
   def get_move(board)
-    board_array = board.spots
     @type == "human" ? human_move(board) : computer_move(board)
   end
 
@@ -48,28 +47,24 @@ class Player
   end
 
   def best_move(board)
-    board_array = board.spots
     move = nil
-
     board.available_spots.each do |spot|
-      spot_index = spot - 1
-      board_array[spot_index] = @marker
+      board.spots[spot - 1] = @marker
       if board.three_in_row?
         move = spot
         return move
       else
-        @marker == 'X' ? board_array[spot_index] = 'O' : board_array[spot_index] = 'X'
+        @marker == 'X' ? board.spots[spot - 1] = 'O' : board.spots[spot - 1] = 'X'
 
         if board.three_in_row?
-          board_array[spot_index] = @marker
+          board.spots[spot - 1] = @marker
           move = spot
           return move
         else
-          board_array[spot_index] = spot
+          board.spots[spot - 1] = spot
         end
       end
     end
-
     return move
   end
 
