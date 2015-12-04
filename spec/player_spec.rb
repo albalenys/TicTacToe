@@ -43,6 +43,11 @@ describe 'Player' do
       expect{@computer.get_move(@board)}.to change{@board.spots[6]}.to('O')
     end
 
+    it 'computers choose spots that avoid lost' do
+      @board.spots = ['X', 2, 'O', 'X', 5, 'O', 7, 8, 9]
+      expect{@computer.get_move(@board).to change(@board.spots[6].to ('O'))}
+    end
+
     it 'computers choose randomly when there is no best move' do
       @board.spots = ['O', 2, 3, 4, 'X', 6, 7, 8, 9]
       @computer.get_move(@board)

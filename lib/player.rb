@@ -1,4 +1,5 @@
 require_relative 'helpers'
+require 'pry'
 
 class Player
   attr_accessor :marker, :input
@@ -36,44 +37,46 @@ class Player
   end
 
   def computer_move(board)
-    if best_move(board)
-      return best_move(board)
+    if check_for_win(board)
+      spot = check_for_win(board)
+    elsif check_for_lost(board)
+      spot = check_for_lost(board)
     elsif board.spots[4] == 5
-      board.spots[4] = @marker
-      return 5
+      spot = 5
     else
-      return pick_random_spot(board)
+      spot = board.available_spots.sample
     end
+    board.spots[index(spot)] = @marker
+    return spot
   end
 
-  def best_move(board)
+  def check_for_win(board)
     move = nil
     board.available_spots.each do |spot|
       board.spots[index(spot)] = @marker
       if board.three_in_row?
+        board.spots[index(spot)] = spot
         move = spot
-        return move
+        break
       else
-        avoid_lose(board, spot)
+        board.spots[index(spot)] = spot
       end
     end
     return move
   end
 
-  def pick_random_spot(board)
-    spot = board.available_spots.sample
-    board.spots[index(spot)] = @marker
-    return spot
-  end
-
-  def avoid_lose(board, spot)
-    @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
-    if board.three_in_row?
-      board.spots[index(spot)] = @marker
-      return spot
-    else
-      board.spots[index(spot)] = spot
+  def check_for_lost(board)
+    move = nil
+    board.available_spots.each do |spot|
+      @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
+      if board.three_in_row?
+        board.spots[index(spot)] = spot
+        move = spot
+        break
+      else
+        board.spots[index(spot)] = spot
+      end
     end
+    return move
   end
-
 end
