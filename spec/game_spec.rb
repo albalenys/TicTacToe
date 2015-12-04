@@ -1,7 +1,7 @@
 require_relative '../lib/game'
 
 describe 'Game' do
-  before do
+  before(:all) do
     Game.send(:public, *Game.private_instance_methods)
     @game = Game.new
   end

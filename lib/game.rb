@@ -40,7 +40,6 @@ class Game
     end
     Display.header(self)
     Display.final_score(self)
-    gets
   end
 
   private
