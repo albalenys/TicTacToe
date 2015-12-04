@@ -5,7 +5,7 @@ describe 'Board' do
     @board = Board.new
   end
 
-  describe '#three_in_row???' do
+  describe '#three_in_row?' do
     it 'returns false with no wins' do
       @board.spots = Array(1..9)
       expect(@board.three_in_row?).to eq(false)

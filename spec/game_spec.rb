@@ -15,16 +15,6 @@ describe 'Game' do
     end
   end
 
-  describe '#get_type' do
-    it 'changes @type with valid user input' do
-      @game.input = StringIO.new("1")
-      expect{ @game.get_type }.to change{ @game.type }.from(nil).to("1")
-    end
-
-    xit 'does not change @type with invalid user input' do
-    end
-  end
-
   describe '#create_players' do
     it 'creates one human and one computer player with option 1' do
       @game.type = "1"
@@ -45,20 +35,6 @@ describe 'Game' do
       @game.create_players
       expect(@game.player_1.type).to eq("computer")
       expect(@game.player_2.type).to eq("computer")
-    end
-  end
-
-  describe '#get_first_player_turn' do
-    xit 'sets current_player as opposite of user input' do
-      @game.type = "1"
-      @game.create_players
-      @game.player_1.marker = "X"
-      @game.player_2.marker = "O"
-      @game.input = StringIO.new("X")
-      expect{ @game.get_first_player_turn }.to change{ @game.current_player }.from(nil).to(@player_2)
-    end
-
-    xit 'does not set current_player with invalid user input' do
     end
   end
 end
