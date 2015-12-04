@@ -3,7 +3,7 @@ require_relative '../lib/board'
 require_relative '../lib/display'
 
 describe 'Player' do
-  before do
+  before(:all) do
     @board = Board.new
     @player = Player.new("human")
     @player.marker = 'X'

@@ -73,7 +73,6 @@ class Display
       end
       Display.board(game.board.spots)
       puts "\n"
-      puts "Press any key to start a new game."
     end
 
     def error_message(number)

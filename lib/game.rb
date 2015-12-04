@@ -3,7 +3,6 @@ require_relative 'game'
 require_relative 'player'
 require_relative 'board'
 require_relative 'helpers'
-require 'pry'
 
 class Game
   attr_accessor :type, :current_player, :input
@@ -41,7 +40,6 @@ class Game
     end
     Display.header(self)
     Display.final_score(self)
-    gets
   end
 
   private
