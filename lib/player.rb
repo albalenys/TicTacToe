@@ -37,10 +37,10 @@ class Player
   end
 
   def computer_move(board)
-    if check_for_win(board)
-      spot = check_for_win(board)
-    elsif check_for_lost(board)
-      spot = check_for_lost(board)
+    if check_for_condition("win", board)
+      spot = check_for_condition("win", board)
+    elsif check_for_condition("lost", board)
+      spot = check_for_condition("lost", board)
     elsif board.spots[4] == 5
       spot = 5
     else
@@ -50,25 +50,15 @@ class Player
     return spot
   end
 
-  def check_for_win(board)
+  def check_for_condition(condition, board)
     move = nil
     board.available_spots.each do |spot|
-      board.spots[index(spot)] = @marker
-      if board.three_in_row?
-        board.spots[index(spot)] = spot
-        move = spot
-        break
+      if condition == "win"
+        board.spots[index(spot)] = @marker
       else
-        board.spots[index(spot)] = spot
+        @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
       end
-    end
-    return move
-  end
 
-  def check_for_lost(board)
-    move = nil
-    board.available_spots.each do |spot|
-      @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
       if board.three_in_row?
         board.spots[index(spot)] = spot
         move = spot
