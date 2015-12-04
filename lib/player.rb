@@ -44,9 +44,9 @@ class Player
     spot
   end
 
-  def check_condition(condition = "lost", board)
+  def check_condition(condition = "lose", board)
     board.available_spots.each do |spot|
-      if condition == "lost"
+      if condition == "lose"
         @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
       else
         board.spots[index(spot)] = @marker

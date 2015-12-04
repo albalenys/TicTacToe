@@ -16,7 +16,6 @@ class Game
     @current_player = nil
     @winner = nil
     @type = nil
-    self.input = $stdin
   end
 
   def setup
@@ -51,10 +50,10 @@ class Game
   end
 
   def get_type
-    @type = input.gets.chomp
+    @type = gets.chomp
     until (@type == "1" || @type == "2" || @type == "3")
       Display.error_message(1)
-      @type = input.gets.chomp
+      @type = gets.chomp
     end
   end
 
