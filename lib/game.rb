@@ -2,6 +2,7 @@ require_relative 'display'
 require_relative 'game'
 require_relative 'player'
 require_relative 'board'
+require_relative 'helpers'
 
 class Game
   attr_accessor :type, :current_player, :input

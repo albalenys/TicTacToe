@@ -1,5 +1,3 @@
-require_relative 'helpers'
-
 class Player
   attr_accessor :marker, :input
   attr_reader :type
@@ -7,14 +5,13 @@ class Player
   def initialize(type)
     @marker =  nil
     @type = type
-    self.input = $stdin
   end
 
   def get_marker(next_player)
-    @marker = input.gets.chomp.upcase!
+    @marker = gets.chomp.upcase!
     until (@marker == "X" || @marker == "O")
       Display.error_message(2)
-      @marker = input.gets.chomp.upcase!
+      @marker = gets.chomp.upcase!
     end
     @marker == 'X' ? next_player.marker = 'O' : next_player.marker = 'X'
   end
