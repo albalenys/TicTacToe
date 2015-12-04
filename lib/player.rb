@@ -1,3 +1,5 @@
+require_relative 'helpers'
+
 class Player
   attr_accessor :marker, :input
   attr_reader :type
@@ -18,61 +20,45 @@ class Player
   end
 
   def get_move(board)
-    board_array = board.spots
     @type == "human" ? human_move(board) : computer_move(board)
   end
 
   private
 
   def human_move(board)
-    board_array = board.spots
     spot = gets.chomp
-
-    until spot == !(Array("a".."z").include?(spot)) || board_array.include?(spot.to_i)
+    until spot == !(Array("a".."z").include?(spot)) || board.spots.include?(spot.to_i)
       Display.error_message(3)
       spot = gets.chomp
     end
-
-    spot_index = spot.to_i - 1
-    board_array[spot_index] = @marker
-    return spot
+    board.spots[index(spot)] = @marker
+    spot
   end
 
   def computer_move(board)
-    board_array = board.spots
-    available_spots = board_array.select { |spot| spot unless spot == 'X' || spot == 'O' }
-    move = nil
-
-    available_spots.each do |spot|
-      spot_index = spot - 1
-      board_array[spot_index] = @marker
-      if board.three_in_row?
-        move = spot
-        break
-      else
-        @marker == 'X' ? board_array[spot_index] = 'O' : board_array[spot_index] = 'X'
-
-        if board.three_in_row?
-          board_array[spot_index] = @marker
-          move = spot
-          break
-        else
-          board_array[spot_index] = spot
-        end
-      end
+    if check_condition(board) || check_condition("win", board)
+      spot = check_condition(board) || check_condition("win", board)
+    elsif board.spots[4] == 5
+      spot = 5
+    else
+      spot = board.available_spots.sample
     end
+    board.spots[index(spot)] = @marker
+    spot
+  end
 
-    unless move
-      if board_array[4] == 5
-        board_array[4] = @marker
-        move = 5
+  def check_condition(condition = "lost", board)
+    board.available_spots.each do |spot|
+      if condition == "lost"
+        @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
       else
-        spot = available_spots.sample
-        board_array[spot.to_i - 1] = @marker
-        move = spot
+        board.spots[index(spot)] = @marker
       end
-    end
 
-    return move
+      @move = spot if board.three_in_row?
+      board.spots[index(spot)] = spot
+      break if board.three_in_row?
+    end
+    @move ||= nil
   end
 end

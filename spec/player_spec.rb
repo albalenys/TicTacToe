@@ -26,21 +26,36 @@ describe 'Player' do
     it 'computers choose middle spot when available' do
       @board.spots = Array(1..9)
       expect{@computer.get_move(@board)}.to change{@board.spots[4]}.to('O')
+      count = @board.spots.select { |spot| spot == 'O'}
+      expect(count.length).to eq(1)
     end
 
     it 'computers choose spots that will give diagonal win' do
       @board.spots = ['O', 'X', 3, 4, 'O', 6, 'X', 8, 9]
       expect{@computer.get_move(@board)}.to change{@board.spots[8]}.to('O')
+      count = @board.spots.select { |spot| spot == 'O'}
+      expect(count.length).to eq(3)
     end
 
     it 'computers choose spots that will give horizontal win' do
       @board.spots = [1, 'X', 3, 'O', 'O', 6, 'X', 8, 9]
       expect{@computer.get_move(@board)}.to change{@board.spots[5]}.to('O')
+      count = @board.spots.select { |spot| spot == 'O'}
+      expect(count.length).to eq(3)
     end
 
     it 'computers choose spots that will give vertical win' do
-      @board.spots = ['O', 2, 'X', 'O', 5, 'X', 7, 8, 9]
+      @board.spots = ['O', 2, 'X', 'O', 5, 6, 7, 'X', 9]
       expect{@computer.get_move(@board)}.to change{@board.spots[6]}.to('O')
+      count = @board.spots.select { |spot| spot == 'O'}
+      expect(count.length).to eq(3)
+    end
+
+    it 'computers choose spots that avoid lost' do
+      @board.spots = ['X', 2, 'O', 'X', 5, 'O', 7, 8, 9]
+      expect{@computer.get_move(@board).to change(@board.spots[6].to ('O'))}
+      # count = @board.spots.select { |spot| spot == 'O'}
+      # expect(count.length).to eq(3)
     end
 
     it 'computers choose randomly when there is no best move' do

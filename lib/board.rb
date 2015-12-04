@@ -19,4 +19,8 @@ class Board
   def all_spots_taken?
     @spots.all? { |spots| spots == 'X' || spots == 'O' }
   end
+
+  def available_spots
+    @spots.select { |spot| spot unless spot == 'X' || spot == 'O' }
+  end
 end
