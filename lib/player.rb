@@ -45,17 +45,17 @@ class Player
   end
 
   def check_condition(condition = "lose", board)
+    move = nil
     board.available_spots.each do |spot|
       if condition == "lose"
         @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
       else
         board.spots[index(spot)] = @marker
       end
-
-      @move = spot if board.three_in_row?
+      move = spot if board.three_in_row?
       board.spots[index(spot)] = spot
       break if board.three_in_row?
     end
-    @move ||= nil
+    move
   end
 end
