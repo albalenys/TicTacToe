@@ -25,7 +25,7 @@ class Game
     create_players
     @player_1.get_marker(@player_2)
     Display.first_turn_options(@player_1)
-    get_first_player_turn
+    get_first_turn
   end
 
   def start
@@ -73,7 +73,7 @@ class Game
     end
   end
 
-  def get_first_player_turn
+  def get_first_turn
     player_marker = gets.chomp.upcase!
     until (player_marker == "X" || player_marker == "O")
       Display.error_message(2)
