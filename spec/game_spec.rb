@@ -37,18 +37,4 @@ describe 'Game' do
       expect(@game.player_2.type).to eq("computer")
     end
   end
-
-  describe '#get_first_player_turn' do
-    xit 'sets current_player as opposite of user input' do
-      @game.type = "1"
-      @game.create_players
-      @game.player_1.marker = "X"
-      @game.player_2.marker = "O"
-      @game.input = StringIO.new("X")
-      expect{ @game.get_first_player_turn }.to change{ @game.current_player }.from(nil).to(@player_2)
-    end
-
-    xit 'does not set current_player with invalid user input' do
-    end
-  end
 end
