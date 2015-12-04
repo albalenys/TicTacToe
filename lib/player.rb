@@ -1,5 +1,4 @@
 require_relative 'helpers'
-require 'pry'
 
 class Player
   attr_accessor :marker, :input
@@ -33,27 +32,27 @@ class Player
       spot = gets.chomp
     end
     board.spots[index(spot)] = @marker
-    return spot
+    spot
   end
 
   def computer_move(board)
-    if check_condition("win", board) || check_condition(board)
-      spot = check_condition("win", board) || check_condition(board)
+    if check_condition(board) || check_condition("win", board)
+      spot = check_condition(board) || check_condition("win", board)
     elsif board.spots[4] == 5
       spot = 5
     else
       spot = board.available_spots.sample
     end
     board.spots[index(spot)] = @marker
-    return spot
+    spot
   end
 
   def check_condition(condition = "lost", board)
     board.available_spots.each do |spot|
-      if condition == "win"
-        board.spots[index(spot)] = @marker
-      else
+      if condition == "lost"
         @marker == 'X' ? board.spots[index(spot)] = 'O' : board.spots[index(spot)] = 'X'
+      else
+        board.spots[index(spot)] = @marker
       end
 
       @move = spot if board.three_in_row?

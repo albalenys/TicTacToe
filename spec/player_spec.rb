@@ -45,7 +45,7 @@ describe 'Player' do
     end
 
     it 'computers choose spots that will give vertical win' do
-      @board.spots = ['O', 2, 'X', 'O', 5, 'X', 7, 8, 9]
+      @board.spots = ['O', 2, 'X', 'O', 5, 6, 7, 'X', 9]
       expect{@computer.get_move(@board)}.to change{@board.spots[6]}.to('O')
       count = @board.spots.select { |spot| spot == 'O'}
       expect(count.length).to eq(3)
