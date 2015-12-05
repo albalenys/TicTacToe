@@ -5,7 +5,7 @@ require_relative 'board'
 require_relative 'helpers'
 
 class Game
-  attr_accessor :type, :current_player, :input
+  attr_accessor :type, :current_player
   attr_reader :player_1, :player_2, :board, :winner
 
   def initialize

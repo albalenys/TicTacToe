@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :marker, :input
+  attr_accessor :marker
   attr_reader :type
 
   def initialize(type)
