@@ -1,6 +1,6 @@
 ##TicTacToe
 
-Tic Tac Toe console game designed for <a href="https://8thlight.com/">8th Light</a>'s Apprenticeship program.
+Tic Tac Toe console game.
 
 
 ###Instructions
